@@ -1,0 +1,94 @@
+EXPORT: Corvalis Medical Devices - IT Service Desk ticket queue
+FILTER: Module = Order Management, last 120 days
+EXPORTED BY: Yuki Tanaka, ERP Support Analyst
+NOTES ON EACH TICKET: written by Yuki Tanaka
+EXPORT DATE: 2026-06-15
+NOTE FROM YUKI: pulled this together for the discovery folks, not a formal
+report, just filtered our ticket tool and cleaned up the noise a bit. we
+don't keep a separate customization register for OM as far as I know - if
+one exists I've never seen it and I've been doing this role 3 years. this
+plus what's in people's heads is basically the whole picture.
+
+--------------------------------------------------------------------------
+TICKET #4471 (closed) - "ATP showing wrong on WD-2200 orders"
+Reported by: order entry team (multiple reps over time, this ticket is the
+one I use to bucket all the ATP complaints since they're basically the same
+issue)
+Notes: Item WD-2200 (and a few others in that same item category) runs
+through a nightly custom concurrent program, XXCVL_ATP_REVAL, that
+re-validates ATP overnight against the Fargo warehouse cycle-count
+adjustments. During the business day, the standard ATP engine is what the
+order screen calls live, but if a cycle count adjustment posted that
+morning hasn't made it through XXCVL_ATP_REVAL yet, the live check can show
+a false negative until the next overnight run. This has been reported on
+and off for over a year. No permanent fix scheduled - "known behavior,"
+per the ticket closure note from a prior analyst (not me).
+
+--------------------------------------------------------------------------
+TICKET #4502 (closed) - "attribute10 on order line - what is it for"
+Reported by: Helen Park, Order Mgmt Supervisor
+Notes: attribute10 (Descriptive Flexfield, Sales Order Line) has no
+system-enforced value set - it's a free-text field. Per whoever set this
+up originally (before my time, I don't have a name on this), it appears to
+have been intended to flag "no-charge sample" lines so they route to a
+different revenue account. There's no validation, no required-field rule,
+and as far as I can tell most reps either don't use it at all or use the
+line Notes field instead. I flagged to Helen that this should probably be
+a value set with an approval step if it affects revenue recognition, but
+that's a process/policy call, not mine to make.
+
+--------------------------------------------------------------------------
+TICKET #4519 (closed) - "credit check rule - does RUSH order type check
+credit"
+Reported by: Priya Chandrasekaran, Credit Analyst
+Notes: Confirmed in Oracle Order Management Order Type setup
+(OEXOTCTY form): order type ZZ-STD (Domestic Standard) has Credit Check
+Rule = CREDIT-DOM-2024 attached, which runs at Book. Order type ZZ-RUSH
+(Rush) has no Credit Check Rule assigned - field is blank. This is
+standard EBS config, not a customization, so there's no code to point to,
+just a setup value. I don't have change-history/audit trail turned on for
+this form so I can't tell you exactly when or by whom the ZZ-RUSH row was
+set up this way, or whether it was ever meant to be temporary. It's been
+this way at least since I started 3 years ago.
+
+--------------------------------------------------------------------------
+TICKET #4530 (closed) - "duplicate customer records - Briarwood"
+Reported by: Helen Park
+Notes: Confirmed 3 customer number records in the system with very similar
+names, all mapped to what looks like the same physical hospital
+(Briarwood Regional Medical Center). No dedupe/fuzzy-match rule is
+configured on customer search in the Sales Order Workbench - it's a
+straight text search against customer name/number, so all 3 will surface
+and a rep has to pick. This is a data quality issue in the customer
+master, not something OM itself can fix. Suggested a data cleanup project
+to Helen; not actioned as of this export.
+
+--------------------------------------------------------------------------
+TICKET #4544 (open) - "NEW CUSTOMER HOLD - who releases this"
+Reported by: order entry team (routed through Helen Park)
+Notes: NEW CUSTOMER HOLD is a standard Order Management hold, applied
+automatically to the first order for any customer number less than 90
+days old in the system. Release responsibility in the hold-source setup
+(OEXHOLDS) points to "Credit Manager" role, which nobody currently holds
+as an assigned responsibility in our instance - Priya's team has been
+releasing these informally because they're the closest thing we have to
+a credit function, but they are not actually assigned the Credit Manager
+role that the hold definition references. Left open pending a decision on
+whether to reassign the hold-source responsibility or formally give
+someone the Credit Manager role.
+
+--------------------------------------------------------------------------
+Other custom objects touching Order Management I'm aware of (not
+exhaustive, just what I could think of when asked):
+- XXCVL_ATP_REVAL - nightly concurrent program, see ticket 4471 above
+- XXCVL_ORDACK_EXTRACT - nightly extract table feeding a report Finance
+  uses for something, I've never fully understood what report consumes it
+- No custom forms, no custom OA Framework pages that I know of touching
+  this L4. Order entry itself runs on the standard Sales Order Workbench /
+  Order Organizer forms, unmodified as far as I can tell.
+
+Customization level overall for this area I'd call "light" - a couple of
+concurrent programs bolted on, everything else is standard config
+(order types, price lists, holds, credit check rules). The mess, if there
+is one, is more in the setup values and the customer master data than in
+custom code.

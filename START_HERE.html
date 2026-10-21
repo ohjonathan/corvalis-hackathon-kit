@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hackathon task card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+:root{--teal:#1F4E8C;--teal-deep:#12315E;--teal-ink:#0C2447;--teal-soft:#3B6FB0;--mint:#EAF0F8;--mint-2:#D6E2F1;--navy:#1F2A3A;--ink:#15181B;--muted:#5A6578;--muted-2:#8A94A6;--line:#D9DFE8;--paper:#FFFFFF;--paper-2:#F3F5F8;--gold:#C9922B;--red:#D23B2F;--mck:#0B4EA2;
+--f-head:"Manrope","Segoe UI",Helvetica,Arial,sans-serif;--f-body:"Source Sans 3","Segoe UI",Helvetica,Arial,sans-serif}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper-2);color:var(--ink);font:400 17px/1.5 var(--f-body)}
+.top{background:radial-gradient(900px 500px at 85% 0%,#1A3B6E 0%,#112A52 45%,#0A1730 80%);color:#fff;padding:36px 20px 40px}
+.top .in,.main{max-width:920px;margin:0 auto}
+.eyebrow{font:700 12px/1.3 var(--f-head);letter-spacing:.14em;text-transform:uppercase;color:#9DBBE8}
+h1{font:800 clamp(30px,5vw,44px)/1.1 var(--f-head);letter-spacing:-.015em;margin:14px 0 0}
+h1 b{color:#8FC1FF;font-weight:800}
+.top p{font:500 19px/1.45 var(--f-head);color:#B7C9E6;margin:16px 0 0;max-width:760px}
+.main{padding:28px 20px 60px}
+h2{font:800 22px/1.2 var(--f-head);margin:36px 0 12px;color:var(--teal-ink)}
+h2 .n{display:inline-block;min-width:30px;height:30px;border-radius:50%;background:var(--teal);color:#fff;font:800 15px/30px var(--f-head);text-align:center;margin-right:10px;vertical-align:2px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.grid{display:grid;gap:14px}
+@media(min-width:720px){.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}.g4{grid-template-columns:repeat(4,1fr)}}
+.card b.t{display:block;font:800 16px/1.3 var(--f-head);color:var(--teal-deep);margin-bottom:6px}
+.card .k{font:700 11px/1 var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);display:block;margin-bottom:8px}
+.lvl{border-left:5px solid var(--teal-soft)}
+.lvl.b{border-left-color:var(--teal)}.lvl.c{border-left-color:var(--gold)}
+ul,ol{margin:6px 0 0;padding-left:22px}
+li{margin:4px 0}
+code,kbd{font:600 14px/1.2 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--mint);border:1px solid var(--mint-2);border-radius:5px;padding:1px 6px;overflow-wrap:anywhere}
+.files{list-style:none;padding:0;margin:0}
+.files li{display:flex;gap:12px;align-items:baseline;padding:10px 0;border-top:1px solid var(--line)}
+.files li:first-child{border-top:0}
+.files code{flex:0 1 auto}
+.files span{color:var(--muted);font-size:15px}
+@media(max-width:620px){.files li{flex-direction:column;gap:4px}}
+.time{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:0}
+.time dt{font:800 15px/1.5 var(--f-head);color:var(--teal);font-variant-numeric:tabular-nums;white-space:nowrap}
+.time dd{margin:0}
+.prompt{position:relative;background:#0E1E3C;color:#E8EEF8;border-radius:14px;padding:18px 20px 20px}
+.prompt pre{margin:0;white-space:pre-wrap;font:400 15px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;overflow-wrap:anywhere}
+.copy{appearance:none;border:0;border-radius:30px;background:#8FC1FF;color:#0A1730;font:800 14px var(--f-head);padding:10px 18px;cursor:pointer;margin-bottom:14px}
+.copy:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.rules li::marker{color:var(--teal)}
+.ladder{counter-reset:r;list-style:none;padding:0;margin:0}
+.ladder li{counter-increment:r;display:flex;gap:12px;align-items:flex-start;margin:10px 0}
+.ladder li::before{content:counter(r);flex:0 0 28px;height:28px;border-radius:50%;background:var(--mint-2);color:var(--teal-deep);font:800 14px/28px var(--f-head);text-align:center}
+.note{font-size:14px;color:var(--muted);margin-top:40px;border-top:1px solid var(--line);padding-top:14px}
+</style></head>
+<body>
+<header class="top"><div class="in">
+  <div class="eyebrow">McKinsey × Stanza · GE-O Tech &amp; AI Knowledge Day · Lisbon · 23 October 2026</div>
+  <h1>Find what the SOP <b>doesn't say</b></h1>
+  <p>Corvalis Medical Devices is moving order-to-cash from Oracle E-Business Suite 12.1.3 to SAP S/4HANA. Discovery collected six documents about one process, Standard Sales Order Entry. With an AI agent, your table turns them into the as-is truth a design lead can take to the CIO.</p>
+</div></header>
+<main class="main">
+
+<h2><span class="n">1</span>Your task</h2>
+<div class="card">
+  <p style="margin:0">Build <code>as_is.html</code>: one page that shows how the process really runs today, every gap between the SOP and reality, who owns each gap, the risk, and the S/4HANA design question it raises. <b>Every claim cites a file.</b></p>
+</div>
+<div class="grid g3" style="margin-top:14px">
+  <div class="card lvl"><span class="k">Done</span><b class="t">The real process</b>The page opens in a browser, shows the process as it actually runs, and lists at least five SOP-versus-reality gaps, each with a citation.</div>
+  <div class="card lvl b"><span class="k">Better</span><b class="t">Owner, risk, design question</b>Every gap has the risk, who owns it today (or "nobody"), and the S/4HANA design question it forces.</div>
+  <div class="card lvl c"><span class="k">Best</span><b class="t">CIO-ready</b>A top three with the decision you would ask the CIO to make on Monday.</div>
+</div>
+
+<h2><span class="n">2</span>Timing</h2>
+<div class="card"><dl class="time">
+  <dt>0-5 min</dt><dd>Framing on screen.</dd>
+  <dt>5-7</dt><dd>Open the kit in Cursor, choose roles, paste the prompt.</dd>
+  <dt>7-27</dt><dd>Build with AI. The agent reads all six files and drafts the page; navigators steer it.</dd>
+  <dt>27-32</dt><dd>Review. The skeptic checks every citation against the file.</dd>
+  <dt>32-40</dt><dd>Share-out: 60 seconds per table, then the answer key.</dd>
+</dl></div>
+
+<h2><span class="n">3</span>Table roles (5-6 people)</h2>
+<div class="grid g4">
+  <div class="card"><b class="t">Driver</b>Hands on Cursor. Types what the table decides.</div>
+  <div class="card"><b class="t">Navigators</b>Read the sources, spot what the agent missed, suggest the next prompt.</div>
+  <div class="card"><b class="t">Skeptic</b>Opens the cited file for every claim. Unconfirmed stays unconfirmed.</div>
+  <div class="card"><b class="t">Presenter</b>Gives the 60-second share-out.</div>
+</div>
+
+<h2><span class="n">4</span>Start in Cursor</h2>
+<div class="card"><ol style="margin:0">
+  <li>Download the kit from <code>github.com/ohjonathan/corvalis-hackathon-kit</code> (<b>Code &gt; Download ZIP</b>, no GitHub account needed) and unzip it. A USB copy is at your table.</li>
+  <li>In Cursor: <b>File &gt; Open Folder…</b> and choose the unzipped kit folder.</li>
+  <li>Open the AI chat (<kbd>Cmd</kbd>+<kbd>L</kbd> on Mac, <kbd>Ctrl</kbd>+<kbd>L</kbd> on Windows) (<b>Agent</b> mode is usually the default).</li>
+  <li>Paste the prompt below and send it. Approve the agent's file changes when it asks.</li>
+  <li>Open the page: in Cursor's file list, right-click <code>as_is.html</code> &gt; <b>Reveal in Finder</b> (Mac) or <b>Reveal in File Explorer</b> (Windows), then double-click it.</li>
+  <li>Keep improving it: "add a swimlane", "what would the CIO push back on?", "which finding has the biggest financial exposure, and what data would we need to size it?"</li>
+</ol></div>
+
+<h2><span class="n">5</span>The prompt</h2>
+<div class="prompt">
+  <button class="copy" type="button" id="copy">Copy prompt</button>
+  <pre id="prompt">You are my analyst on an SAP S/4HANA discovery team. I am the design lead for Corvalis Medical Devices, which runs order-to-cash on Oracle E-Business Suite 12.1.3 and is moving to SAP S/4HANA. On Monday I walk the Corvalis CIO through how Standard Sales Order Entry really works today.
+
+The folder data/ holds everything discovery collected for this one process: the official SOP, a walkthrough call, an email thread, an exceptions log, a rep&#x27;s private notes and an IT ticket export. Only data/ holds sources.
+
+1. Read every file in data/ in full before writing anything.
+2. Build as_is.html in this folder: one self-contained HTML page (inline CSS, no external libraries, fonts or network calls) with:
+   - at the top, the three findings that matter most for the S/4HANA design, each with the one decision you would ask the CIO to make on Monday;
+   - the process as it actually runs today, step by step: who does what, on which screen;
+   - a table of gaps between what the SOP says and what really happens. Include anything the SOP is silent on or puts out of scope if it happens during order entry. For each gap: what the SOP says, what actually happens, the evidence, the risk (type: financial, control, customer or data; and High, Medium or Low), who owns it in practice today (a named person or role with a citation, &quot;nobody&quot; if a source shows no one does, or &quot;unconfirmed&quot; if no source says), and the design question it raises, in S/4HANA terms where you can (for example credit management, Business Partner, availability check, pricing conditions, item categories);
+   - a short list of open questions for the CIO.
+3. Cite the source for every claim, in this style: [SOP-OM-014 §3 step 7], [Renata call, step 5], [email, Priya 7 May], [log ORD-119560], [rep notes], [ticket #4519]. If sources disagree or something is not confirmed, write &quot;unconfirmed&quot; and show both sides. Label your own reasoning as &quot;inference&quot;. Do not invent facts.
+
+Here is one gap row, using a minor finding so you can see the format:
+SOP says: next scheduled review 2023-03-15 [SOP-OM-014 header]. Reality: the file copy is stamped &quot;REVIEW OVERDUE&quot; [SOP-OM-014 header], and new reps learn by two days of shadowing because &quot;a lot of it doesn&#x27;t match what we actually do&quot; [Renata call, flagged items]. Risk: control; Low. Owner today: Process Excellence Group owns the SOP on paper [SOP-OM-014 header]; nobody is keeping it current (inference). S/4HANA question: who keeps process documentation current after go-live?
+
+When the page is done, tell me in the chat what you would check next.</pre>
+</div>
+
+<h2><span class="n">6</span>What's in <code>data/</code></h2>
+<div class="card"><ul class="files">
+<li><code>data/SOP-OM-014 Standard Sales Order Entry v3.0 (2021).md</code><span>The official procedure for this process.</span></li>
+<li><code>data/notes - call w Renata Diaz (order entry walkthrough) 04-27.md</code><span>Discovery call with the Inside Sales supervisor.</span></li>
+<li><code>data/FW_ credit check on RUSH orders (thread).txt</code><span>An email thread between Sales Ops, Credit and Inside Sales.</span></li>
+<li><code>data/order_entry_exceptions_log_Q2.csv</code><span>Every order-entry exception logged in Q2 (to 10 June).</span></li>
+<li><code>data/quick notes - Marcus (order desk) - stuff nobody writes down.md</code><span>A rep&#x27;s private notes.</span></li>
+<li><code>data/ticket_dump_EBS_OM_config.txt</code><span>IT service desk tickets for Order Management, with the analyst&#x27;s notes.</span></li>
+</ul></div>
+
+<h2><span class="n">7</span>Rules</h2>
+<div class="card"><ul class="rules" style="margin:0">
+  <li>Corvalis Medical Devices is fictional. All data in this kit is synthetic.</li>
+  <li>Use only these files. Never paste client or confidential data into any AI tool.</li>
+  <li>No sign-ins needed beyond your own Cursor.</li>
+  <li>Every claim cites a file. "Unconfirmed" beats invented.</li>
+  <li>Don't edit the files in <code>data/</code>.</li>
+</ul></div>
+
+<h2><span class="n">8</span>If Cursor won't start</h2>
+<div class="card"><ol class="ladder">
+  <li><span>One working Cursor per table is enough: build on the driver's laptop.</span></li>
+  <li><span>Ask a Stanza host for a loaner laptop.</span></li>
+  <li><span>Paste-in mode: copy <code>paste-in/ALL_SOURCES.md</code> and the prompt into any AI chat your firm allows, and ask for the page as HTML.</span></li>
+  <li><span>Still stuck: be the skeptic for a neighboring table.</span></li>
+</ol></div>
+
+<h2><span class="n">9</span>Share-out (60 seconds)</h2>
+<div class="card"><p style="margin:0"><b>The one thing the SOP hides that would change the S/4HANA design, and your evidence.</b> Judged on truth (did you find it?), evidence (does every claim cite a file?) and so-what (owner and design decision).</p></div>
+
+<p class="note">Prepared by Stanza for the McKinsey GE-O Tech &amp; AI Knowledge Day. Corvalis Medical Devices and everyone named in this kit are fictional; any resemblance to real organizations or people is coincidental. This page works offline.</p>
+</main>
+<script>
+document.getElementById('copy').addEventListener('click', function () {
+  var b = this, t = document.getElementById('prompt').textContent;
+  function done(ok) { b.textContent = ok ? 'Copied' : 'Select the text and copy'; setTimeout(function () { b.textContent = 'Copy prompt'; }, 2200); }
+  if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(t).then(function () { done(true); }, function () { done(false); }); return; }
+  var r = document.createRange(); r.selectNodeContents(document.getElementById('prompt'));
+  var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+  try { done(document.execCommand('copy')); } catch (e) { done(false); }
+});
+</script>
+</body></html>
