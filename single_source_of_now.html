@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Single Source of Now</title>
+<!--
+  Single Source of Now: the program office's dashboard for Project Keystone.
+  One self-contained page: inline CSS and JS, no libraries, no network.
+  All program data lives in data/program.js (window.PROGRAM). Change the data and reload.
+  Views (hash routes): #executive, #program, #team, #team/<TEAM ID>
+-->
+<style>
+:root{
+  --bg:#F5F8FC;--card:#fff;--line:#E3E8EF;--line-2:#EEF2F7;--ink:#111827;--ink-2:#2B3340;--muted:#5B6474;--faint:#8A93A3;
+  --blue:#1F4FD8;--blue-soft:#EAF0FF;
+  --green:#1E7B34;--green-soft:#E6F4EA;--amber:#8A5A00;--amber-soft:#FFF4DC;--amber-line:#C98A12;--red:#B4231A;--red-soft:#FDECEA;
+  --f:"Inter","Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 14px/1.45 var(--f)}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+/* header and navigation */
+.top{background:#fff;border-bottom:1px solid var(--line);padding:14px 24px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font:700 19px var(--f)}
+.brand svg{width:24px;height:24px}
+.prog{margin-top:10px;font:600 13.5px var(--f)}.prog small{display:block;font-weight:400;color:var(--muted)}
+.who{text-align:right;font-size:12.5px;color:var(--muted)}.who b{color:var(--ink);font-weight:600}
+.chip{display:inline-block;margin-top:6px;background:var(--amber-soft);color:var(--amber);border:1px dashed var(--amber-line);border-radius:6px;padding:2px 8px;font:700 11px var(--f);letter-spacing:.04em}
+.tabs{background:#fff;border-bottom:1px solid var(--line);padding:8px 24px;display:flex;gap:8px;flex-wrap:wrap}
+.tabs span{padding:7px 12px;border-radius:8px;color:var(--faint);font-weight:600;cursor:not-allowed}
+.tabs span.on{background:var(--blue-soft);color:var(--blue);cursor:default}
+.layout{display:grid;grid-template-columns:190px 1fr;min-height:calc(100vh - 140px)}
+.side{border-right:1px solid var(--line);padding:18px 10px}
+.side h4{margin:0 0 10px 10px;font:700 11px var(--f);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.side a{display:block;padding:8px 12px;border-radius:8px;color:var(--ink-2);margin-bottom:2px}
+.side a.on{background:#fff;border:1px solid var(--line);font-weight:600}
+main{padding:22px 28px 60px;max-width:1280px}
+.eyebrow{font:600 12px var(--f);letter-spacing:.08em;text-transform:uppercase;color:var(--blue)}
+h1{margin:4px 0 2px;font:700 24px var(--f)}
+.lede{color:var(--muted);margin:0 0 18px}
+h2{font:700 15px var(--f);margin:0 0 12px}
+h3{font:700 13px var(--f);margin:16px 0 8px;color:var(--ink-2)}
+/* cards and grids */
+.grid{display:grid;gap:16px;margin-bottom:16px}
+.g4{grid-template-columns:repeat(4,1fr)}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.kpi{border-top:4px solid var(--faint);display:flex;flex-direction:column}
+.kpi.red{border-top-color:var(--red)}.kpi.amber{border-top-color:var(--amber-line)}.kpi.green{border-top-color:var(--green)}
+.kpi .q{font:600 14px var(--f);margin-bottom:8px}
+.kpi .b{align-self:flex-start}
+.big{font:700 30px/1.1 var(--f);margin:8px 0}
+.kpi.red .big{color:var(--red)}.kpi.amber .big{color:var(--amber)}.kpi.green .big{color:var(--green)}
+.kpi .foot{margin-top:auto;padding-top:10px;font-size:12.5px}
+.rows{width:100%;border-collapse:collapse;font-size:13px}
+.rows td{padding:3px 0}.rows td:last-child{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.note{font-size:12.5px;color:var(--muted)}
+.was{font-size:12.5px;color:var(--faint)}
+/* status badges */
+.b{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:2px 9px;font:600 12px var(--f);white-space:nowrap}
+.b::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.b.green{background:var(--green-soft);color:var(--green)}.b.amber{background:var(--amber-soft);color:var(--amber)}.b.red{background:var(--red-soft);color:var(--red)}
+.b.grey{background:var(--line-2);color:var(--muted)}
+.tag{font:700 11px var(--f);letter-spacing:.06em;text-transform:uppercase}
+.tag.concern{color:var(--amber)}.tag.opportunity{color:var(--green)}.tag.new{color:var(--blue)}.tag.red{color:var(--red)}.tag.amber{color:var(--amber)}
+.ref{font:600 11.5px ui-monospace,Menlo,Consolas,monospace;color:var(--muted);background:var(--line-2);border-radius:4px;padding:0 4px;white-space:nowrap}
+/* lists */
+.list{list-style:none;margin:0;padding:0}
+.list li{padding:9px 0;border-top:1px solid var(--line-2)}.list li:first-child{border-top:0;padding-top:0}
+.list .t{font-weight:600}
+.list .m{font-size:12.5px;color:var(--muted)}
+.overdue{color:var(--red);font-weight:700}
+details summary{cursor:pointer;color:var(--blue);font-size:12.5px;margin-top:4px}
+/* tables */
+table.t{width:100%;border-collapse:collapse;font-size:13px}
+table.t th{text-align:left;font-weight:600;color:var(--muted);border-bottom:1px solid var(--line);padding:8px 8px 8px 0;font-size:12px}
+table.t td{border-bottom:1px solid var(--line-2);padding:9px 8px 9px 0;vertical-align:top}
+table.t td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+.sec{font:700 11px var(--f);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);padding-top:14px!important}
+.mismatch{color:var(--red);font-weight:700}
+.bar{height:6px;background:var(--line-2);border-radius:4px;overflow:hidden;width:90px;display:inline-block;vertical-align:middle;margin-right:6px}
+.bar i{display:block;height:100%;background:var(--blue)}
+/* phase stepper */
+.steps{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-bottom:16px}
+.step{background:var(--line-2);padding:9px 12px;border-radius:6px;font-size:12px;color:var(--muted)}
+.step b{display:block;font-size:13px;color:var(--ink)}
+.step.done{background:#DCE6FB}.step.cur{background:var(--blue);color:#DCE6FB}.step.cur b{color:#fff}
+/* gate timeline */
+.tl{position:relative;height:56px;margin:8px 0 4px}
+.tl .ax{position:absolute;left:0;right:0;top:27px;height:2px;background:var(--line)}
+.tl .pt{position:absolute;top:20px;width:16px;height:16px;margin-left:-8px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px var(--line)}
+.tl .pt.base{background:var(--faint)}.tl .pt.fc{background:var(--red)}
+.tl .lb{position:absolute;top:0;font-size:11.5px;color:var(--muted);white-space:nowrap;transform:translateX(-50%)}
+.tl .lb.low{top:40px}
+select{font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;min-width:240px}
+footer{margin-top:28px;font-size:12px;color:var(--faint)}
+@media(max-width:1100px){.g4{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.side{border-right:0;border-bottom:1px solid var(--line)}.g4,.g2,.g3,.steps{grid-template-columns:1fr}main{padding:18px 16px}}
+@media print{.tabs,.side{display:none}.layout{display:block}body{background:#fff}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div>
+    <div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="#1F4FD8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14l9-8 9 8"/><path d="M7 18l5-4.5 5 4.5"/></svg>Single Source of Now</div>
+    <div class="prog" id="prog"></div>
+  </div>
+  <div class="who"><b>Program office</b> · weekly pack<br><span id="cutoff"></span><br><span class="chip">FICTIONAL DATA</span></div>
+</header>
+<nav class="tabs" aria-label="Sections">
+  <span class="on">Single Source of Now</span>
+  <span title="Not in this starter">Investigate</span>
+  <span title="Not in this starter">Value assurance</span>
+  <span title="Not in this starter">Agent cockpit</span>
+</nav>
+<div class="layout">
+  <aside class="side">
+    <h4>Single source of now</h4>
+    <a href="#executive" data-v="executive">Executive</a>
+    <a href="#program" data-v="program">Program management</a>
+    <a href="#team" data-v="team">Team lead</a>
+  </aside>
+  <main id="view"></main>
+</div>
+
+<!-- The data. A classic script tag (not fetch) so the page works when opened from disk. -->
+<script src="data/program.js"></script>
+<script>
+var P = window.PROGRAM;
+
+/* ---------- helpers ---------- */
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+function d(iso) { if (!iso) return ''; var p = iso.split('-'); return (+p[2]) + ' ' + MON[+p[1] - 1] + ' ' + p[0]; }
+function date(iso) { var p = iso.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
+/* Working days from a to b (Mon-Fri, no holidays, per calendar rule C-02). Positive if b is later. */
+function wd(a, b) {
+  var x = date(a), y = date(b), n = 0, s = y >= x ? 1 : -1;
+  while (x.getTime() !== y.getTime()) { x.setDate(x.getDate() + s); if (x.getDay() % 6 !== 0) n += s; }
+  return n;
+}
+function usd(m) { return '$' + m.toFixed(m < 1 ? 2 : 1) + 'M'; }
+function ref(id) { return '<span class="ref">' + esc(id) + '</span>'; }
+var LABEL = { green: 'On track', amber: 'Attention needed', red: 'At risk', grey: 'Not started' };
+function badge(s, text) { return '<span class="b ' + s + '">' + esc(text || LABEL[s]) + '</span>'; }
+function team(id) { return P.teams.filter(function (t) { return t.id === id; })[0]; }
+function milestone(id) { return P.milestones.filter(function (m) { return m.id === id; })[0]; }
+
+/* Evidence status: computed from the data, not from what the team reported.
+   red   = 3+ overdue design activities, or a staffing shortfall of 1 FTE or more
+   amber = any overdue or blocked activity, or any staffing shortfall
+   green = otherwise */
+function evidence(t) {
+  var short = t.fte.planned - t.fte.actual;
+  if (t.design.overdue >= 3 || short >= 1) return 'red';
+  if (t.design.overdue > 0 || t.design.blocked > 0 || short > 0) return 'amber';
+  return 'green';
+}
+var RANK = { red: 0, amber: 1, green: 2 };
+function rankTeams() { return P.teams.slice().sort(function (a, b) { return RANK[evidence(a)] - RANK[evidence(b)] || b.design.overdue - a.design.overdue; }); }
+function count(list, fn) { return list.filter(fn).length; }
+var LEVEL = { High: 3, Medium: 2, Low: 1 };
+function score(r) { return LEVEL[r.likelihood] * LEVEL[r.impact]; }
+
+/* ---------- derived program numbers ---------- */
+function numbers() {
+  var gate = milestone('M2'), live = milestone('M5');
+  var slip = wd(gate.baseline, gate.forecast);
+  var prevGate = P.history.designGateForecast[P.history.designGateForecast.length - 2];
+  var tot = P.teams.reduce(function (a, t) { a.total += t.design.total; a.done += t.design.done; a.overdue += t.design.overdue; a.blocked += t.design.blocked; return a; }, { total: 0, done: 0, overdue: 0, blocked: 0 });
+  var better = count(P.teams, function (t) { return RANK[t.reportedStatus] > RANK[evidence(t)]; });
+  var open = P.decisions.filter(function (x) { return x.status === 'Open'; }).sort(function (a, b) { return a.neededBy < b.neededBy ? -1 : 1; });
+  var value = P.valueCase.lines.reduce(function (a, l) { return a + l.annual; }, 0);
+  var validated = P.valueCase.lines.filter(function (l) { return l.financeValidated; });
+  return {
+    gate: gate, live: live, slip: slip, prevSlip: wd(gate.baseline, prevGate),
+    toLive: wd(P.meta.reportingCutoff, live.forecast), tot: tot, better: better, open: open,
+    value: value, validatedValue: validated.reduce(function (a, l) { return a + l.annual; }, 0), validatedCount: validated.length
+  };
+}
+function slipStatus(n) { return n > 10 ? 'red' : n > 0 ? 'amber' : 'green'; }
+
+/* ---------- Executive ---------- */
+function executive() {
+  var N = numbers(), B = P.budget, gs = slipStatus(N.slip);
+  var costStatus = B.forecastAtCompletion <= B.approved ? 'green' : 'red';
+  var rep = { green: 0, amber: 0, red: 0 }, ev = { green: 0, amber: 0, red: 0 };
+  P.teams.forEach(function (t) { rep[t.reportedStatus]++; ev[evidence(t)]++; });
+
+  var kpis =
+    '<div class="card kpi ' + gs + '"><div class="q">Are we on schedule?</div>' + badge(gs) +
+    '<div class="note" style="margin-top:8px">Current phase: <b>' + esc(P.meta.currentPhase) + '</b></div>' +
+    '<div class="big">' + N.slip + ' working days late</div>' +
+    '<div class="note">Design gate: baseline ' + d(N.gate.baseline) + ', forecast ' + d(N.gate.forecast) + ' ' + ref('M2') + '</div>' +
+    '<div class="was">Was ' + N.prevSlip + ' working days late on ' + d(P.meta.previousCutoff) + '</div>' +
+    '<h3>Go-live</h3><div>Forecast <b>' + d(N.live.forecast) + '</b> (baseline ' + d(N.live.baseline) + ') ' + ref('M5') + '</div>' +
+    '<div class="note">' + N.toLive + ' working days away. ' + esc(P.forecastBasis) + '</div>' +
+    '<div class="foot"><a href="#program">Schedule and phases →</a></div></div>';
+
+  kpis += '<div class="card kpi ' + (N.better ? 'amber' : 'green') + '"><div class="q">Do team reports match the evidence?</div>' +
+    '<div class="big">' + N.better + ' of ' + P.teams.length + ' teams</div><div>report a better status than their evidence shows.</div>' +
+    '<table class="rows" style="margin-top:12px"><tr><td>Reported by team leads</td><td>' + rep.green + ' green · ' + rep.amber + ' amber · ' + rep.red + ' red</td></tr>' +
+    '<tr><td>Evidence (overdue, blocked, staffing)</td><td>' + ev.green + ' green · ' + ev.amber + ' amber · ' + ev.red + ' red</td></tr></table>' +
+    '<div class="foot"><a href="#program">Team status →</a></div></div>';
+
+  kpis += '<div class="card kpi ' + costStatus + '"><div class="q">Are costs controlled?</div>' + badge(costStatus) +
+    '<div class="big">' + usd(B.forecastAtCompletion) + '</div><div class="note">Forecast at completion vs ' + usd(B.approved) + ' approved ' + ref('budget') + '</div>' +
+    '<table class="rows" style="margin-top:10px"><tr><td>Spent to date</td><td>' + usd(B.spentToDate) + '</td></tr><tr><td>Planned to date</td><td>' + usd(B.plannedToDate) + '</td></tr>' +
+    '<tr><td>Contingency left</td><td>' + usd(B.contingency.remaining) + ' of ' + usd(B.contingency.approved) + '</td></tr><tr><td>Weekly run rate</td><td>' + usd(B.weeklyRunRate) + '</td></tr></table>' +
+    '<div class="foot note">Forecast last updated ' + d(B.forecastLastUpdated) + '</div></div>';
+
+  kpis += '<div class="card kpi"><div class="q">What value is expected?</div><div class="big" style="color:var(--ink-2)">' + usd(N.value) + ' a year</div>' +
+    '<div class="note">At full run rate, after go-live ' + ref('value') + '</div>' +
+    '<table class="rows" style="margin-top:10px"><tr><td>Validated by Finance</td><td>' + usd(N.validatedValue) + ' (' + N.validatedCount + ' of ' + P.valueCase.lines.length + ' lines)</td></tr></table>' +
+    '<div class="note" style="margin-top:8px">' + esc(P.valueCase.startRule) + '</div>' +
+    '<div class="foot"><a href="#program/value">Value case →</a></div></div>';
+
+  var dec = N.open.map(function (x) {
+    var late = wd(x.neededBy, P.meta.reportingCutoff);
+    var due = late > 0 ? '<span class="overdue">Overdue ' + late + ' working days</span>' : 'Needed by ' + d(x.neededBy);
+    var owner = x.owner ? esc(x.owner) : '<span class="overdue">' + esc(x.ownerNote || 'Unassigned') + '</span>';
+    return '<li><div class="t">' + ref(x.id) + ' ' + esc(x.title) + '</div><div class="m">' + due + ' · Owner: ' + owner + ' · ' + esc(team(x.team) ? team(x.team).name : x.team) + '</div>' +
+      '<details><summary>Details</summary><div class="m" style="margin-top:6px">' + esc(x.question) + '<br>' + x.options.map(esc).join('<br>') + '<br><b>Blocks:</b> ' + esc(x.blocks) + '</div></details></li>';
+  }).join('');
+
+  var upd = P.changesThisWeek.map(function (c) {
+    return '<li><span class="tag ' + c.type + '">' + esc(c.type) + '</span> ' + esc(c.text) + ' ' + c.refs.map(ref).join(' ') + '</li>';
+  }).join('');
+
+  var risk = rankTeams().filter(function (t) { return evidence(t) !== 'green'; }).map(function (t) {
+    var s = evidence(t);
+    return '<li><span class="tag ' + s + '">' + (s === 'red' ? 'Red' : 'Amber') + '</span> <span class="t">' + esc(t.name) + '</span>' +
+      (t.onCriticalPath ? ' <span class="note">· on the critical path</span>' : '') + '<div class="m">' + esc(t.signal) + '</div></li>';
+  }).join('');
+
+  var g = N.gate, lo = date(g.baseline).getTime() - 14 * 864e5, hi = date(P.governance.steeringCommittee.next).getTime();
+  hi = Math.max(hi, date(g.forecast).getTime()) + 10 * 864e5;
+  function x(iso) { return ((date(iso).getTime() - lo) / (hi - lo) * 100).toFixed(1) + '%'; }
+  var gate = '<div class="tl"><div class="ax"></div>' +
+    '<div class="lb" style="left:' + x(g.baseline) + '">Baseline ' + d(g.baseline) + '</div><div class="pt base" style="left:' + x(g.baseline) + '"></div>' +
+    '<div class="lb low" style="left:' + x(g.forecast) + '">Forecast ' + d(g.forecast) + '</div><div class="pt fc" style="left:' + x(g.forecast) + '"></div></div>';
+
+  return '<div class="eyebrow">Single source of now</div><h1>Executive</h1><p class="lede">Reporting cutoff ' + d(P.meta.reportingCutoff) +
+    '. Next steering committee ' + d(P.governance.steeringCommittee.next) + '.</p>' +
+    '<div class="grid g4">' + kpis + '</div>' +
+    '<div class="grid g2"><div class="card"><h2>Decisions requiring attention</h2><ul class="list">' + dec + '</ul></div>' +
+    '<div class="card"><h2>Key updates since ' + d(P.meta.previousCutoff) + '</h2><ul class="list">' + upd + '</ul></div></div>' +
+    '<div class="grid g2"><div class="card"><h2>Workstreams at risk (evidence)</h2><ul class="list">' + risk + '</ul></div>' +
+    '<div class="card"><h2>Current phase gate: ' + esc(g.name) + '</h2>' + gate +
+    '<div class="note" style="margin-top:12px">' + esc(g.note) + ' ' + ref('M2') + '</div>' +
+    '<div class="note" style="margin-top:6px">Rule ' + ref('G-1') + ' ' + esc(P.governance.rules[0].text) + '</div></div></div>';
+}
+
+/* ---------- Program management ---------- */
+function program(section) {
+  var N = numbers(), B = P.budget;
+  var steps = P.milestones.map(function (m) {
+    var cls = m.status === 'Done' ? 'done' : m.status === 'Current' ? 'cur' : '';
+    var late = wd(m.baseline, m.forecast);
+    return '<div class="step ' + cls + '"><b>' + esc(m.phase) + '</b>' + esc(m.status) + '<br>' + d(m.forecast) + (late > 0 ? ' (+' + late + ' wd)' : '') + '</div>';
+  }).join('');
+
+  var openRisks = P.risks.slice().sort(function (a, b) { return score(b) - score(a); });
+  var overdueActions = count(P.actions, function (a) { return a.status === 'Open' && a.due < P.meta.reportingCutoff; });
+  var summary = '<div class="grid g3">' +
+    '<div class="card"><h2>Program status</h2>' + badge(slipStatus(N.slip)) + '<div class="big" style="color:var(--red)">' + N.slip + ' working days late</div>' +
+    '<div class="note">Design gate forecast ' + d(N.gate.forecast) + ' vs ' + d(N.gate.baseline) + ' ' + ref('M2') + '</div></div>' +
+    '<div class="card"><h2>Design progress</h2><div class="big">' + Math.round(N.tot.done / N.tot.total * 100) + '%</div>' +
+    '<div class="note">' + N.tot.done + ' of ' + N.tot.total + ' design activities done. ' + N.tot.overdue + ' overdue, ' + N.tot.blocked + ' blocked.</div></div>' +
+    '<div class="card"><h2>RAID summary</h2><table class="rows"><tr><td>Open risks</td><td>' + P.risks.length + ' (' + count(P.risks, function (r) { return score(r) === 9; }) + ' high-high)</td></tr>' +
+    '<tr><td>Open issues</td><td>' + P.issues.length + '</td></tr><tr><td>Open decisions</td><td>' + N.open.length + '</td></tr>' +
+    '<tr><td>Open actions</td><td>' + count(P.actions, function (a) { return a.status === 'Open'; }) + ' (' + overdueActions + ' overdue)</td></tr></table></div></div>';
+
+  var rows = rankTeams().map(function (t) {
+    var e = evidence(t), mism = RANK[t.reportedStatus] > RANK[e];
+    var pct = Math.round(t.design.done / t.design.total * 100);
+    return '<tr><td><a href="#team/' + t.id + '">' + esc(t.name) + '</a><div class="note">' + esc(t.lead) + '</div></td><td>' + badge(e) + '</td><td>' + badge(t.reportedStatus) +
+      (mism ? ' <span class="mismatch" title="Reported better than the evidence">≠</span>' : '') + '</td><td>' + esc(t.signal) + '</td>' +
+      '<td class="n"><span class="bar"><i style="width:' + pct + '%"></i></span>' + pct + '%</td><td class="n">' + t.design.overdue + ' / ' + t.design.blocked + '</td>' +
+      '<td class="n">' + t.fte.actual + ' of ' + t.fte.planned + '</td></tr>';
+  }).join('');
+
+  var risks = openRisks.map(function (r) {
+    return '<tr><td>' + ref(r.id) + '</td><td><b>' + esc(r.title) + '</b><div class="note">' + esc(r.description) + '</div></td><td>' + esc(r.likelihood) + ' / ' + esc(r.impact) +
+      '</td><td>' + esc(r.owner) + '</td><td>' + esc(r.nextStep) + '<div class="note">By ' + d(r.nextStepDue) + '</div></td><td>' + esc(r.trend) + '</td></tr>';
+  }).join('');
+  var issues = P.issues.map(function (i) {
+    return '<tr><td>' + ref(i.id) + '</td><td><b>' + esc(i.title) + '</b><div class="note">' + esc(i.description) + '</div></td><td>' + esc(i.severity) + '</td><td>' + esc(i.owner) + '</td></tr>';
+  }).join('');
+  var decisions = P.decisions.map(function (x) {
+    var late = x.status === 'Open' ? wd(x.neededBy, P.meta.reportingCutoff) : 0;
+    return '<tr><td>' + ref(x.id) + '</td><td><b>' + esc(x.title) + '</b><div class="note">' + esc(x.question) + '</div></td><td>' + esc(x.status) + '</td><td class="n">' + d(x.neededBy) +
+      (late > 0 ? '<div class="overdue">' + late + ' wd overdue</div>' : '') + '</td><td>' + (x.owner ? esc(x.owner) : '<span class="overdue">Unassigned</span>') + '</td></tr>';
+  }).join('');
+  var actions = P.actions.map(function (a) {
+    var late = a.status === 'Open' && a.due < P.meta.reportingCutoff;
+    return '<tr><td>' + ref(a.id) + '</td><td>' + esc(a.title) + '</td><td>' + esc(a.owner) + '</td><td class="n">' + d(a.due) + '</td><td>' + (late ? '<span class="overdue">Overdue</span>' : esc(a.status)) + '</td></tr>';
+  }).join('');
+
+  var cats = B.categories.map(function (c) {
+    return '<tr><td>' + esc(c.name) + '</td><td class="n">' + usd(c.approved) + '</td><td class="n">' + usd(c.spentToDate) + '</td></tr>';
+  }).join('') + '<tr><td>Contingency</td><td class="n">' + usd(B.contingency.approved) + '</td><td class="n">' + usd(B.contingency.drawn) + ' drawn, ' + usd(B.contingency.remaining) + ' left</td></tr>';
+  var value = P.valueCase.lines.map(function (l) {
+    return '<tr><td>' + ref(l.id) + '</td><td>' + esc(l.name) + (l.note ? '<div class="note">' + esc(l.note) + '</div>' : '') + '</td><td class="n">' + usd(l.annual) + '</td><td>' +
+      (l.financeValidated ? 'Yes' : '<b>No</b>') + '</td><td class="n">' + l.startsAfterGoLiveMonths + ' months</td><td>' + esc(l.owner) + '</td></tr>';
+  }).join('');
+  var rules = P.governance.rules.concat(P.governance.calendar).map(function (r) {
+    return '<li>' + ref(r.id) + ' ' + esc(r.text) + (r.source ? ' <span class="note">(' + esc(r.source) + ')</span>' : '') + '</li>';
+  }).join('');
+  var options = P.recoveryOptions.map(function (o) {
+    return '<li><div class="t">' + ref(o.id) + ' ' + esc(o.name) + '</div><div class="m">' + esc(o.how) + '<br>Cost: ' + (o.cost == null ? esc(o.costNote) : usd(o.cost)) + ' · Confidence: ' + esc(o.confidence) + '</div></li>';
+  }).join('');
+
+  var html = '<div class="eyebrow">Single source of now</div><h1>Program management</h1><p class="lede">Schedule, team status, RAID, budget and value for ' + esc(P.meta.program) + '. Cutoff ' + d(P.meta.reportingCutoff) + '.</p>' +
+    '<div class="steps">' + steps + '</div>' + summary +
+    '<div class="card" style="margin-bottom:16px"><h2>Team status overview</h2><p class="note" style="margin-top:-6px">Evidence status is computed from overdue and blocked work and staffing. ≠ marks a team that reports better than its evidence.</p>' +
+    '<table class="t"><tr><th>Team</th><th>Evidence</th><th>Reported</th><th>Primary signal</th><th>Design done</th><th>Overdue / blocked</th><th>FTE actual</th></tr>' + rows + '</table></div>' +
+    '<div class="grid g2"><div class="card"><h2>Recovery options</h2><ul class="list">' + options + '</ul></div>' +
+    '<div class="card"><h2>Governance rules and calendar</h2><ul class="list">' + rules + '</ul></div></div>' +
+    '<div class="card" style="margin-bottom:16px"><h2>Risks</h2><table class="t"><tr><th>ID</th><th>Risk</th><th>Likelihood / impact</th><th>Owner</th><th>Next step</th><th>Trend</th></tr>' + risks + '</table>' +
+    '<h3>Issues</h3><table class="t"><tr><th>ID</th><th>Issue</th><th>Severity</th><th>Owner</th></tr>' + issues + '</table>' +
+    '<h3>Decisions</h3><table class="t"><tr><th>ID</th><th>Decision</th><th>Status</th><th>Needed by</th><th>Owner</th></tr>' + decisions + '</table>' +
+    '<h3>Actions</h3><table class="t"><tr><th>ID</th><th>Action</th><th>Owner</th><th>Due</th><th>Status</th></tr>' + actions + '</table></div>' +
+    '<div class="grid g2" id="value"><div class="card"><h2>Budget (USD millions)</h2><table class="t"><tr><th>Category</th><th>Approved</th><th>Spent to date</th></tr>' + cats + '</table>' +
+    '<p class="note">' + esc(B.contingency.note) + ' Forecast at completion ' + usd(B.forecastAtCompletion) + ', last updated ' + d(B.forecastLastUpdated) + '. ' + esc(B.runRateNote) + ' ' + usd(B.weeklyRunRate) + ' a week.</p></div>' +
+    '<div class="card"><h2>Value case (USD millions a year)</h2><table class="t"><tr><th>ID</th><th>Benefit</th><th>Run rate</th><th>Finance validated</th><th>Starts after go-live</th><th>Owner</th></tr>' + value + '</table>' +
+    '<p class="note">' + esc(P.valueCase.startRule) + '</p></div></div>';
+  if (section === 'value') setTimeout(function () { document.getElementById('value').scrollIntoView(); }, 0);
+  return html;
+}
+
+/* ---------- Team lead ---------- */
+function teamView(id) {
+  var opts = '<option value="">All teams</option>' + P.teams.map(function (t) { return '<option value="' + t.id + '"' + (t.id === id ? ' selected' : '') + '>' + esc(t.name) + '</option>'; }).join('');
+  var html = '<div class="eyebrow">Single source of now</div><h1>Team lead</h1><p class="lede">Pick a team to see its work, staffing and RAID.</p>' +
+    '<div class="card" style="margin-bottom:16px"><label class="note" for="pick">TEAM</label><br><select id="pick">' + opts + '</select></div>';
+  var t = team(id);
+  if (!t) {
+    var rows = P.teams.map(function (t) {
+      return '<tr><td><a href="#team/' + t.id + '">' + esc(t.name) + '</a></td><td>' + esc(t.lead) + '</td><td class="n">' + t.fte.planned + '</td><td class="n">' + t.fte.actual + '</td><td class="n">' +
+        (t.fte.planned - t.fte.actual) + '</td><td>' + badge(evidence(t)) + '</td></tr>';
+    }).join('');
+    return html + '<div class="card"><h2>All teams</h2><table class="t"><tr><th>Team</th><th>Lead</th><th>Planned FTE</th><th>Actual FTE</th><th>Shortfall FTE</th><th>Delivery (evidence)</th></tr>' + rows + '</table></div>';
+  }
+  var mine = function (x) { return x.team === t.id; };
+  var raid = P.risks.filter(mine).map(function (r) { return '<li>' + ref(r.id) + ' <b>' + esc(r.title) + '</b> · ' + esc(r.likelihood) + ' / ' + esc(r.impact) + '<div class="m">' + esc(r.description) + ' Next step: ' + esc(r.nextStep) + ' By ' + d(r.nextStepDue) + '.</div></li>'; })
+    .concat(P.issues.filter(mine).map(function (i) { return '<li>' + ref(i.id) + ' <b>' + esc(i.title) + '</b> · issue<div class="m">' + esc(i.description) + '</div></li>'; }))
+    .concat(P.decisions.filter(mine).map(function (x) { return '<li>' + ref(x.id) + ' <b>' + esc(x.title) + '</b> · decision, ' + esc(x.status.toLowerCase()) + '<div class="m">Needed by ' + d(x.neededBy) + ' · Owner: ' + esc(x.owner || x.ownerNote) + '</div></li>'; }))
+    .join('') || '<li class="m">No RAID items for this team.</li>';
+  var kpis = (t.kpis || []).map(function (k) { return '<tr><td>' + esc(k.name) + '</td><td>' + k.value.toLocaleString('en-US') + (k.unit === '%' ? '%' : '') + (k.target ? ' (target ' + k.target + '%)' : '') + (k.of ? ' of ' + k.of.toLocaleString('en-US') : '') + '</td></tr>'; }).join('');
+  return html + '<div class="grid g2"><div class="card"><h2>' + esc(t.name) + ' ' + ref(t.id) + '</h2><div class="note">Lead: ' + esc(t.lead) + (t.onCriticalPath ? ' · on the critical path' : '') + '</div>' +
+    '<h3>Reported by the team lead</h3>' + badge(t.reportedStatus) + '<p>"' + esc(t.reportedNote) + '"</p>' +
+    '<h3>What the evidence shows</h3>' + badge(evidence(t)) + '<p>' + esc(t.signal) + '</p>' + (t.buildNeed ? '<p class="note">' + esc(t.buildNeed) + '</p>' : '') + '</div>' +
+    '<div class="card"><h2>Work and staffing</h2><table class="rows"><tr><td>Design activities done</td><td>' + t.design.done + ' of ' + t.design.total + '</td></tr><tr><td>Overdue</td><td>' + t.design.overdue +
+    '</td></tr><tr><td>Blocked</td><td>' + t.design.blocked + '</td></tr><tr><td>FTE actual vs planned</td><td>' + t.fte.actual + ' of ' + t.fte.planned + '</td></tr>' + kpis + '</table>' +
+    '<h3>RAID</h3><ul class="list">' + raid + '</ul></div></div>';
+}
+
+/* ---------- routing ---------- */
+function render() {
+  var parts = (location.hash.replace('#', '') || 'executive').split('/');
+  var v = parts[0];
+  document.getElementById('view').innerHTML =
+    (v === 'program' ? program(parts[1]) : v === 'team' ? teamView(parts[1]) : executive()) +
+    '<footer>' + esc(P.meta.dataNote) + ' ' + esc(P.meta.client) + ', its people and its program are invented. Compiled by: ' + esc(P.meta.compiledBy) + '</footer>';
+  [].forEach.call(document.querySelectorAll('.side a'), function (a) { a.classList.toggle('on', a.dataset.v === (v === 'program' || v === 'team' ? v : 'executive')); });
+  var pick = document.getElementById('pick');
+  if (pick) pick.onchange = function () { location.hash = 'team' + (this.value ? '/' + this.value : ''); };
+  window.scrollTo(0, 0);
+}
+document.getElementById('prog').innerHTML = esc(P.meta.client) + ' · ' + esc(P.meta.program) + '<small>' + esc(P.meta.scope) + '</small>';
+document.getElementById('cutoff').textContent = 'Evidence cutoff ' + d(P.meta.reportingCutoff);
+window.addEventListener('hashchange', render);
+render();
+</script>
+</body>
+</html>

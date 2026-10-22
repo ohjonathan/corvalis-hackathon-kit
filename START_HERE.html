@@ -2,11 +2,9 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Hackathon task card</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap">
 <style>
 :root{--teal:#1F4E8C;--teal-deep:#12315E;--teal-ink:#0C2447;--teal-soft:#3B6FB0;--mint:#EAF0F8;--mint-2:#D6E2F1;--navy:#1F2A3A;--ink:#15181B;--muted:#5A6578;--muted-2:#8A94A6;--line:#D9DFE8;--paper:#FFFFFF;--paper-2:#F3F5F8;--gold:#C9922B;--red:#D23B2F;--mck:#0B4EA2;
---f-head:"Manrope","Segoe UI",Helvetica,Arial,sans-serif;--f-body:"Source Sans 3","Segoe UI",Helvetica,Arial,sans-serif}
+--f-head:"Manrope","Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif;--f-body:"Source Sans 3","Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--paper-2);color:var(--ink);font:400 17px/1.5 var(--f-body)}
@@ -32,7 +30,7 @@ code,kbd{font:600 14px/1.2 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 .files{list-style:none;padding:0;margin:0}
 .files li{display:flex;gap:12px;align-items:baseline;padding:10px 0;border-top:1px solid var(--line)}
 .files li:first-child{border-top:0}
-.files code{flex:0 1 auto}
+.files code{flex:0 0 auto;white-space:nowrap}
 .files span{color:var(--muted);font-size:15px}
 @media(max-width:620px){.files li{flex-direction:column;gap:4px}}
 .time{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:0}
@@ -47,114 +45,259 @@ code,kbd{font:600 14px/1.2 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 .ladder li{counter-increment:r;display:flex;gap:12px;align-items:flex-start;margin:10px 0}
 .ladder li::before{content:counter(r);flex:0 0 28px;height:28px;border-radius:50%;background:var(--mint-2);color:var(--teal-deep);font:800 14px/28px var(--f-head);text-align:center}
 .note{font-size:14px;color:var(--muted);margin-top:40px;border-top:1px solid var(--line);padding-top:14px}
+.brief{background:#fff;border-left:6px solid var(--teal);border-radius:10px;padding:16px 20px;font:700 20px/1.4 var(--f-head);color:var(--teal-ink);margin:0}
+.dir{display:flex;flex-direction:column}
+.dir .a{font-size:14.5px;color:var(--muted);margin:2px 0 8px}
+.dir .g{font-size:15px;margin-bottom:12px}
+.dir code{font-size:13px}
+.dir .copy{margin:auto 0 0;align-self:flex-start;background:var(--teal);color:#fff}
+.dir .copy:focus-visible{outline:3px solid var(--teal-soft)}
 </style></head>
 <body>
 <header class="top"><div class="in">
   <div class="eyebrow">McKinsey × Stanza · GE-O Tech &amp; AI Knowledge Day · Lisbon · 23 October 2026</div>
-  <h1>Find what the SOP <b>doesn't say</b></h1>
-  <p>Corvalis Medical Devices is moving order-to-cash from Oracle E-Business Suite 12.1.3 to SAP S/4HANA. Discovery collected six documents about one process, Standard Sales Order Entry. With an AI agent, your table turns them into the as-is truth a design lead can take to the CIO.</p>
+  <h1>Your client's SAP program is in trouble. <b>What would you build?</b></h1>
+  <p>Corvalis Medical Devices (fictional) is replacing Oracle E-Business Suite with SAP S/4HANA. The Design gate is slipping, and the steering committee meets on 28 Oct. The program office has a dashboard. Your table builds what the executives will act on.</p>
 </div></header>
 <main class="main">
 
-<h2><span class="n">1</span>Your task</h2>
-<div class="card">
-  <p style="margin:0">Build <code>as_is.html</code>: one page that shows how the process really runs today, every gap between the SOP and reality, who owns each gap, the risk, and the S/4HANA design question it raises. <b>Every claim cites a file.</b></p>
+<h2><span class="n">1</span>The brief</h2>
+<p class="brief">"Imagine your client: their SAP program is facing challenges, and you need to create a view and an artifact to communicate with your executive clients. What would you build?"</p>
+
+<h2><span class="n">2</span>What's in the kit</h2>
+<div class="card"><ul class="files">
+  <li><code>single_source_of_now.html</code><span>The program office's dashboard: Executive, Program management, Team lead. Double-click it first.</span></li>
+  <li><code>data/program.js</code><span>All the program data: milestones, teams, risks, issues, decisions, actions, budget, value case, this week's changes. Every record has an ID. Change it and reload to change the story.</span></li>
+  <li><code>PROMPT.md</code><span>The starting prompt for Cursor's agent.</span></li>
+  <li><code>AGENTS.md</code><span>The rules Cursor's agent follows in this folder.</span></li>
+</ul></div>
+
+<h2><span class="n">3</span>Pick a direction (or bring your own)</h2>
+<div class="grid g2">
+  <div class="card dir"><b class="t">Steering-committee one-pager</b><div class="a">For the steering committee, chaired by the CFO. File: <code>steerco_onepager.html</code></div>
+    <div class="g">Status in one line, the two or three things that matter, and the decision you need on 28 Oct.</div>
+    <button class="copy" type="button" data-p="p-steerco">Copy prompt</button><pre hidden id="p-steerco">Imagine your client: their SAP program is facing challenges, and you need to create a view and an artifact to communicate with your executive clients. What would you build?
+
+Our client is Corvalis Medical Devices (fictional). Its SAP S/4HANA program, Project Keystone, is in trouble, and the steering committee meets on 28 Oct 2026.
+
+Audience: the steering committee, chaired by the CFO
+Artifact: a one-page steering-committee view built around one clear decision ask
+File name: steerco_onepager.html
+
+1. Read AGENTS.md, then all of data/program.js. Look at single_source_of_now.html: it is the dashboard the program office uses today.
+2. In the chat, give me five lines first: the so-what in one sentence, the decision you would ask for, and the three facts that support it, each with its record ID.
+3. Then build the artifact as one self-contained HTML file in this folder, under the file name above:
+   - load the data with &lt;script src=&quot;data/program.js&quot;&gt;&lt;/script&gt; and take every number from it;
+   - lead with the so-what and the decision ask, then the evidence;
+   - put the record ID next to every fact, like [M2], [D-02], [R-07], [budget], [V-03], [team OTC];
+   - label anything you calculate or judge as &quot;inference&quot; and show the arithmetic;
+   - write for a busy executive: plain words, short sentences, no unexplained acronyms;
+   - no external libraries, fonts or network calls. It must open by double-click.
+4. When it is done, tell me the two questions this audience is most likely to push back with.</pre></div>
+  <div class="card dir"><b class="t">Decision memo</b><div class="a">For Dana Whitfield, CFO and executive sponsor. File: <code>decision_memo.html</code></div>
+    <div class="g">One decision, two or three options with their cost and date impact, and a recommendation.</div>
+    <button class="copy" type="button" data-p="p-memo">Copy prompt</button><pre hidden id="p-memo">Imagine your client: their SAP program is facing challenges, and you need to create a view and an artifact to communicate with your executive clients. What would you build?
+
+Our client is Corvalis Medical Devices (fictional). Its SAP S/4HANA program, Project Keystone, is in trouble, and the steering committee meets on 28 Oct 2026.
+
+Audience: Dana Whitfield, CFO and executive sponsor
+Artifact: a one-page decision memo: the decision, the options, what each costs in money, time and value, and a recommendation
+File name: decision_memo.html
+
+1. Read AGENTS.md, then all of data/program.js. Look at single_source_of_now.html: it is the dashboard the program office uses today.
+2. In the chat, give me five lines first: the so-what in one sentence, the decision you would ask for, and the three facts that support it, each with its record ID.
+3. Then build the artifact as one self-contained HTML file in this folder, under the file name above:
+   - load the data with &lt;script src=&quot;data/program.js&quot;&gt;&lt;/script&gt; and take every number from it;
+   - lead with the so-what and the decision ask, then the evidence;
+   - put the record ID next to every fact, like [M2], [D-02], [R-07], [budget], [V-03], [team OTC];
+   - label anything you calculate or judge as &quot;inference&quot; and show the arithmetic;
+   - write for a busy executive: plain words, short sentences, no unexplained acronyms;
+   - no external libraries, fonts or network calls. It must open by double-click.
+4. When it is done, tell me the two questions this audience is most likely to push back with.</pre></div>
+  <div class="card dir"><b class="t">&quot;What changed this week&quot; email</b><div class="a">For the executive sponsor and the CIO, reading on a phone. File: <code>weekly_email.html</code></div>
+    <div class="g">A subject line that says the news, three changes that matter, and what you need from them.</div>
+    <button class="copy" type="button" data-p="p-email">Copy prompt</button><pre hidden id="p-email">Imagine your client: their SAP program is facing challenges, and you need to create a view and an artifact to communicate with your executive clients. What would you build?
+
+Our client is Corvalis Medical Devices (fictional). Its SAP S/4HANA program, Project Keystone, is in trouble, and the steering committee meets on 28 Oct 2026.
+
+Audience: the executive sponsor and the CIO, reading on a phone
+Artifact: a &quot;what changed this week&quot; email under 200 words, shown as a ready-to-send draft with a subject line and one small table
+File name: weekly_email.html
+
+1. Read AGENTS.md, then all of data/program.js. Look at single_source_of_now.html: it is the dashboard the program office uses today.
+2. In the chat, give me five lines first: the so-what in one sentence, the decision you would ask for, and the three facts that support it, each with its record ID.
+3. Then build the artifact as one self-contained HTML file in this folder, under the file name above:
+   - load the data with &lt;script src=&quot;data/program.js&quot;&gt;&lt;/script&gt; and take every number from it;
+   - lead with the so-what and the decision ask, then the evidence;
+   - put the record ID next to every fact, like [M2], [D-02], [R-07], [budget], [V-03], [team OTC];
+   - label anything you calculate or judge as &quot;inference&quot; and show the arithmetic;
+   - write for a busy executive: plain words, short sentences, no unexplained acronyms;
+   - no external libraries, fonts or network calls. It must open by double-click.
+4. When it is done, tell me the two questions this audience is most likely to push back with.</pre></div>
+  <div class="card dir"><b class="t">Risk heat map</b><div class="a">For Owen Castellano, CIO, preparing the risk discussion for the 28 Oct steering committee. File: <code>risk_heatmap.html</code></div>
+    <div class="g">Every risk placed from the data, the top three called out, each with an owner and a date.</div>
+    <button class="copy" type="button" data-p="p-heatmap">Copy prompt</button><pre hidden id="p-heatmap">Imagine your client: their SAP program is facing challenges, and you need to create a view and an artifact to communicate with your executive clients. What would you build?
+
+Our client is Corvalis Medical Devices (fictional). Its SAP S/4HANA program, Project Keystone, is in trouble, and the steering committee meets on 28 Oct 2026.
+
+Audience: Owen Castellano, CIO, preparing the risk discussion for the 28 Oct steering committee
+Artifact: a risk heat map: likelihood by impact, each risk placed and clickable to its detail, and the three to act on before 28 Oct
+File name: risk_heatmap.html
+
+1. Read AGENTS.md, then all of data/program.js. Look at single_source_of_now.html: it is the dashboard the program office uses today.
+2. In the chat, give me five lines first: the so-what in one sentence, the decision you would ask for, and the three facts that support it, each with its record ID.
+3. Then build the artifact as one self-contained HTML file in this folder, under the file name above:
+   - load the data with &lt;script src=&quot;data/program.js&quot;&gt;&lt;/script&gt; and take every number from it;
+   - lead with the so-what and the decision ask, then the evidence;
+   - put the record ID next to every fact, like [M2], [D-02], [R-07], [budget], [V-03], [team OTC];
+   - label anything you calculate or judge as &quot;inference&quot; and show the arithmetic;
+   - write for a busy executive: plain words, short sentences, no unexplained acronyms;
+   - no external libraries, fonts or network calls. It must open by double-click.
+4. When it is done, tell me the two questions this audience is most likely to push back with.</pre></div>
+  <div class="card dir"><b class="t">CFO view of value at risk</b><div class="a">For the CFO. File: <code>value_at_risk.html</code></div>
+    <div class="g">The cost of waiting next to the cost of acting, with the arithmetic shown.</div>
+    <button class="copy" type="button" data-p="p-value">Copy prompt</button><pre hidden id="p-value">Imagine your client: their SAP program is facing challenges, and you need to create a view and an artifact to communicate with your executive clients. What would you build?
+
+Our client is Corvalis Medical Devices (fictional). Its SAP S/4HANA program, Project Keystone, is in trouble, and the steering committee meets on 28 Oct 2026.
+
+Audience: the CFO
+Artifact: a value-at-risk view: what a late go-live costs in extra spend and deferred benefits, compared with the cost of recovering
+File name: value_at_risk.html
+
+1. Read AGENTS.md, then all of data/program.js. Look at single_source_of_now.html: it is the dashboard the program office uses today.
+2. In the chat, give me five lines first: the so-what in one sentence, the decision you would ask for, and the three facts that support it, each with its record ID.
+3. Then build the artifact as one self-contained HTML file in this folder, under the file name above:
+   - load the data with &lt;script src=&quot;data/program.js&quot;&gt;&lt;/script&gt; and take every number from it;
+   - lead with the so-what and the decision ask, then the evidence;
+   - put the record ID next to every fact, like [M2], [D-02], [R-07], [budget], [V-03], [team OTC];
+   - label anything you calculate or judge as &quot;inference&quot; and show the arithmetic;
+   - write for a busy executive: plain words, short sentences, no unexplained acronyms;
+   - no external libraries, fonts or network calls. It must open by double-click.
+4. When it is done, tell me the two questions this audience is most likely to push back with.</pre></div>
+  <div class="card dir"><b class="t">Your own idea</b><div class="a">Any audience, any format.</div>
+    <div class="g">Copy this prompt, then fill in its Audience, Artifact and File name lines before you send it.</div>
+    <button class="copy" type="button" data-p="p-own">Copy prompt</button><pre hidden id="p-own">Imagine your client: their SAP program is facing challenges, and you need to create a view and an artifact to communicate with your executive clients. What would you build?
+
+Our client is Corvalis Medical Devices (fictional). Its SAP S/4HANA program, Project Keystone, is in trouble, and the steering committee meets on 28 Oct 2026.
+
+Audience: [who will read it]
+Artifact: [what you will build for them]
+File name: [short_name].html
+
+1. Read AGENTS.md, then all of data/program.js. Look at single_source_of_now.html: it is the dashboard the program office uses today.
+2. In the chat, give me five lines first: the so-what in one sentence, the decision you would ask for, and the three facts that support it, each with its record ID.
+3. Then build the artifact as one self-contained HTML file in this folder, under the file name above:
+   - load the data with &lt;script src=&quot;data/program.js&quot;&gt;&lt;/script&gt; and take every number from it;
+   - lead with the so-what and the decision ask, then the evidence;
+   - put the record ID next to every fact, like [M2], [D-02], [R-07], [budget], [V-03], [team OTC];
+   - label anything you calculate or judge as &quot;inference&quot; and show the arithmetic;
+   - write for a busy executive: plain words, short sentences, no unexplained acronyms;
+   - no external libraries, fonts or network calls. It must open by double-click.
+4. When it is done, tell me the two questions this audience is most likely to push back with.</pre></div>
+</div>
+
+<h2><span class="n">4</span>Context, how, evals</h2>
+<div class="grid g3">
+  <div class="card"><span class="k">Context</span><b class="t">The data, and your experience</b>The program data in the kit, plus everything your table knows about steering committees and the executives in them.</div>
+  <div class="card"><span class="k">How</span><b class="t">Cursor's agent</b>You steer it; you don't code. Ask for changes in plain words.</div>
+  <div class="card"><span class="k">Evals</span><b class="t">What good looks like</b>Set before you build, below. Judged on the so-what, the decision ask, the evidence, and fit for an executive.</div>
 </div>
 <div class="grid g3" style="margin-top:14px">
-  <div class="card lvl"><span class="k">Done</span><b class="t">The real process</b>The page opens in a browser, shows the process as it actually runs, and lists at least five SOP-versus-reality gaps, each with a citation.</div>
-  <div class="card lvl b"><span class="k">Better</span><b class="t">Owner, risk, design question</b>Every gap has the risk, who owns it today (or "nobody"), and the S/4HANA design question it forces.</div>
-  <div class="card lvl c"><span class="k">Best</span><b class="t">CIO-ready</b>A top three with the decision you would ask the CIO to make on Monday.</div>
+  <div class="card lvl"><span class="k">Done</span><b class="t">One clear message</b>Opens by double-click. One audience, one so-what, one decision ask. Every number has its record ID.</div>
+  <div class="card lvl b"><span class="k">Better</span><b class="t">The cost of waiting</b>Shows what happens if they don't decide: the date, the money and the value. Inferences are labeled, with the arithmetic.</div>
+  <div class="card lvl c"><span class="k">Best</span><b class="t">What the dashboard doesn't say</b>Connects records to say something the dashboard doesn't, and it changes the decision. You can defend every number in 60 seconds.</div>
 </div>
 
-<h2><span class="n">2</span>Timing</h2>
+<h2><span class="n">5</span>Timing</h2>
 <div class="card"><dl class="time">
-  <dt>10:55</dt><dd>Framing on screen: context, how and evals, then today's challenge.</dd>
-  <dt>11:00</dt><dd>Create. Open the kit in Cursor, choose roles, paste the prompt. The agent reads all six files and drafts the page.</dd>
-  <dt>11:10</dt><dd>Review. Read the draft against the sources: what did it miss, what did it invent?</dd>
-  <dt>11:17</dt><dd>Build or fix. Steer the agent to fix what you found; navigators push on what it missed.</dd>
-  <dt>11:35</dt><dd>Check. The skeptic opens the cited file for every claim.</dd>
-  <dt>11:40</dt><dd>Share-out: 60 seconds per table, then the answer key and the winner.</dd>
+  <dt>10:55</dt><dd>Framing on screen: context, how and evals, then today&#x27;s challenge.</dd>
+  <dt>11:00</dt><dd>Create. Open the kit, pick a direction and roles, paste the prompt. The agent drafts.</dd>
+  <dt>11:10</dt><dd>Review. Would your executive act on this? What did the agent miss or invent?</dd>
+  <dt>11:17</dt><dd>Build or fix. Steer the agent: sharpen the so-what and the ask, fix what review found.</dd>
+  <dt>11:35</dt><dd>Check. The skeptic traces every number to its record in the data.</dd>
+  <dt>11:40</dt><dd>Share-out: 60 seconds per table. Judges pick a winner.</dd>
+  <dt>11:52</dt><dd>Close.</dd>
 </dl></div>
 
-<h2><span class="n">3</span>Table roles (5-6 people)</h2>
+<h2><span class="n">6</span>Table roles (5-6 people)</h2>
 <div class="grid g4">
   <div class="card"><b class="t">Driver</b>Hands on Cursor. Types what the table decides.</div>
-  <div class="card"><b class="t">Navigators</b>Read the sources, spot what the agent missed, suggest the next prompt.</div>
-  <div class="card"><b class="t">Skeptic</b>Opens the cited file for every claim. Unconfirmed stays unconfirmed.</div>
+  <div class="card"><b class="t">Navigators</b>Read the data and the draft, suggest the next prompt. One plays the executive and pushes back.</div>
+  <div class="card"><b class="t">Skeptic</b>Traces every number to its record in the data. Inference stays labeled.</div>
   <div class="card"><b class="t">Presenter</b>Gives the 60-second share-out.</div>
 </div>
 
-<h2><span class="n">4</span>Start in Cursor</h2>
+<h2><span class="n">7</span>Start in Cursor</h2>
 <div class="card"><ol style="margin:0">
   <li>Download the kit from <code>github.com/ohjonathan/corvalis-hackathon-kit</code> (<b>Code &gt; Download ZIP</b>, no GitHub account needed) and unzip it. A USB copy is at your table.</li>
+  <li>Double-click <code>single_source_of_now.html</code> to see the dashboard.</li>
   <li>In Cursor: <b>File &gt; Open Folder…</b> and choose the unzipped kit folder.</li>
-  <li>Open the AI chat (<kbd>Cmd</kbd>+<kbd>L</kbd> on Mac, <kbd>Ctrl</kbd>+<kbd>L</kbd> on Windows) (<b>Agent</b> mode is usually the default).</li>
-  <li>Paste the prompt below and send it. Approve the agent's file changes when it asks.</li>
-  <li>Open the page: in Cursor's file list, right-click <code>as_is.html</code> &gt; <b>Reveal in Finder</b> (Mac) or <b>Reveal in File Explorer</b> (Windows), then double-click it.</li>
-  <li>Keep improving it: "add a swimlane", "what would the CIO push back on?", "which finding has the biggest financial exposure, and what data would we need to size it?"</li>
+  <li>Open the AI chat (<kbd>Cmd</kbd>+<kbd>L</kbd> on Mac, <kbd>Ctrl</kbd>+<kbd>L</kbd> on Windows). <b>Agent</b> mode is usually the default.</li>
+  <li>Paste the prompt for your direction and send it. Approve the agent's file changes when it asks.</li>
+  <li>Keep improving it: "make the ask the first line", "what would the CFO push back on?", "what does waiting cost?".</li>
 </ol></div>
 
-<h2><span class="n">5</span>The prompt</h2>
+<h2><span class="n">8</span>The default prompt</h2>
 <div class="prompt">
-  <button class="copy" type="button" id="copy">Copy prompt</button>
-  <pre id="prompt">You are my analyst on an SAP S/4HANA discovery team. I am the design lead for Corvalis Medical Devices, which runs order-to-cash on Oracle E-Business Suite 12.1.3 and is moving to SAP S/4HANA. On Monday I walk the Corvalis CIO through how Standard Sales Order Entry really works today.
+  <button class="copy" type="button" data-p="prompt">Copy prompt</button>
+  <pre id="prompt">Imagine your client: their SAP program is facing challenges, and you need to create a view and an artifact to communicate with your executive clients. What would you build?
 
-The folder data/ holds everything discovery collected for this one process: the official SOP, a walkthrough call, an email thread, an exceptions log, a rep&#x27;s private notes and an IT ticket export. Only data/ holds sources.
+Our client is Corvalis Medical Devices (fictional). Its SAP S/4HANA program, Project Keystone, is in trouble, and the steering committee meets on 28 Oct 2026.
 
-1. Read every file in data/ in full before writing anything.
-2. Build as_is.html in this folder: one self-contained HTML page (inline CSS, no external libraries, fonts or network calls) with:
-   - at the top, the three findings that matter most for the S/4HANA design, each with the one decision you would ask the CIO to make on Monday;
-   - the process as it actually runs today, step by step: who does what, on which screen;
-   - a table of gaps between what the SOP says and what really happens. Include anything the SOP is silent on or puts out of scope if it happens during order entry. For each gap: what the SOP says, what actually happens, the evidence, the risk (type: financial, control, customer or data; and High, Medium or Low), who owns it in practice today (a named person or role with a citation, &quot;nobody&quot; if a source shows no one does, or &quot;unconfirmed&quot; if no source says), and the design question it raises, in S/4HANA terms where you can (for example credit management, Business Partner, availability check, pricing conditions, item categories);
-   - a short list of open questions for the CIO.
-3. Cite the source for every claim, in this style: [SOP-OM-014 §3 step 7], [Renata call, step 5], [email, Priya 7 May], [log ORD-119560], [rep notes], [ticket #4519]. If sources disagree or something is not confirmed, write &quot;unconfirmed&quot; and show both sides. Label your own reasoning as &quot;inference&quot;. Do not invent facts.
+Audience: the steering committee, chaired by the CFO
+Artifact: a one-page steering-committee view built around one clear decision ask
+File name: steerco_onepager.html
 
-Here is one gap row, using a minor finding so you can see the format:
-SOP says: next scheduled review 2023-03-15 [SOP-OM-014 header]. Reality: the file copy is stamped &quot;REVIEW OVERDUE&quot; [SOP-OM-014 header], and new reps learn by two days of shadowing because &quot;a lot of it doesn&#x27;t match what we actually do&quot; [Renata call, flagged items]. Risk: control; Low. Owner today: Process Excellence Group owns the SOP on paper [SOP-OM-014 header]; nobody is keeping it current (inference). S/4HANA question: who keeps process documentation current after go-live?
-
-When the page is done, tell me in the chat what you would check next.</pre>
+1. Read AGENTS.md, then all of data/program.js. Look at single_source_of_now.html: it is the dashboard the program office uses today.
+2. In the chat, give me five lines first: the so-what in one sentence, the decision you would ask for, and the three facts that support it, each with its record ID.
+3. Then build the artifact as one self-contained HTML file in this folder, under the file name above:
+   - load the data with &lt;script src=&quot;data/program.js&quot;&gt;&lt;/script&gt; and take every number from it;
+   - lead with the so-what and the decision ask, then the evidence;
+   - put the record ID next to every fact, like [M2], [D-02], [R-07], [budget], [V-03], [team OTC];
+   - label anything you calculate or judge as &quot;inference&quot; and show the arithmetic;
+   - write for a busy executive: plain words, short sentences, no unexplained acronyms;
+   - no external libraries, fonts or network calls. It must open by double-click.
+4. When it is done, tell me the two questions this audience is most likely to push back with.</pre>
 </div>
 
-<h2><span class="n">6</span>What's in <code>data/</code></h2>
-<div class="card"><ul class="files">
-<li><code>data/SOP-OM-014 Standard Sales Order Entry v3.0 (2021).md</code><span>The official procedure for this process.</span></li>
-<li><code>data/notes - call w Renata Diaz (order entry walkthrough) 04-27.md</code><span>Discovery call with the Inside Sales supervisor.</span></li>
-<li><code>data/FW_ credit check on RUSH orders (thread).txt</code><span>An email thread between Sales Ops, Credit and Inside Sales.</span></li>
-<li><code>data/order_entry_exceptions_log_Q2.csv</code><span>Every order-entry exception logged in Q2 (to 10 June).</span></li>
-<li><code>data/quick notes - Marcus (order desk) - stuff nobody writes down.md</code><span>A rep&#x27;s private notes.</span></li>
-<li><code>data/ticket_dump_EBS_OM_config.txt</code><span>IT service desk tickets for Order Management, with the analyst&#x27;s notes.</span></li>
-</ul></div>
-
-<h2><span class="n">7</span>Rules</h2>
+<h2><span class="n">9</span>Rules</h2>
 <div class="card"><ul class="rules" style="margin:0">
   <li>Corvalis Medical Devices is fictional. All data in this kit is synthetic.</li>
-  <li>Use only these files. Never paste client or confidential data into any AI tool.</li>
+  <li>Use only this kit's data. Never paste client or confidential data into any AI tool.</li>
   <li>No sign-ins needed beyond your own Cursor.</li>
-  <li>Every claim cites a file. "Unconfirmed" beats invented.</li>
-  <li>Don't edit the files in <code>data/</code>.</li>
+  <li>Every number traces to a record in <code>data/program.js</code>. "Not in the data" beats invented.</li>
 </ul></div>
 
-<h2><span class="n">8</span>If Cursor won't start</h2>
+<h2><span class="n">10</span>If Cursor won't start</h2>
 <div class="card"><ol class="ladder">
   <li><span>One working Cursor per table is enough: build on the driver's laptop.</span></li>
   <li><span>Ask a Stanza host for a loaner laptop.</span></li>
-  <li><span>Paste-in mode: copy <code>paste-in/ALL_SOURCES.md</code> and the prompt into any AI chat your firm allows, and ask for the page as HTML.</span></li>
-  <li><span>Still stuck: be the skeptic for a neighboring table.</span></li>
+  <li><span>Paste-in mode: copy all of <code>paste-in/PASTE_IN.md</code> into any AI chat your firm allows. Save the HTML it returns as a file ending in <code>.html</code> and double-click it.</span></li>
+  <li><span>Still stuck: play the executive or the skeptic for a neighboring table.</span></li>
 </ol></div>
 
-<h2><span class="n">9</span>Share-out (60 seconds)</h2>
-<div class="card"><p style="margin:0"><b>The one thing the SOP hides that would change the S/4HANA design, and your evidence.</b> Judged on truth (did you find it?), evidence (does every claim cite a file?) and so-what (owner and design decision).</p></div>
+<h2><span class="n">11</span>Open your result</h2>
+<div class="card"><p style="margin:0">In Cursor's file list, right-click your file &gt; <b>Reveal in Finder</b> (Mac) or <b>Reveal in File Explorer</b> (Windows), then double-click it. It opens in your browser, with no server and no internet needed. To show it at share-out, press <kbd>F11</kbd> (Windows) or <kbd>Ctrl</kbd>+<kbd>Cmd</kbd>+<kbd>F</kbd> (Mac) for full screen.</p></div>
 
-<p class="note">Prepared by Stanza for the McKinsey GE-O Tech &amp; AI Knowledge Day. Corvalis Medical Devices and everyone named in this kit are fictional; any resemblance to real organizations or people is coincidental. This page works offline.</p>
+<h2><span class="n">12</span>Share-out (60 seconds)</h2>
+<div class="card"><p style="margin:0"><b>Show the artifact. Say the so-what, the decision you ask for, and one number with its source.</b> Judged on the so-what (clear in ten seconds?), the decision ask (who decides what, by when?), the evidence (does every number trace to the data?) and fit for an executive (would they read it and act?).</p></div>
+
+<p class="note">Prepared by Stanza for the McKinsey GE-O Tech &amp; AI Knowledge Day. Corvalis Medical Devices, Project Keystone and everyone named in this kit are fictional; any resemblance to real organizations or people is coincidental. This page works offline.</p>
 </main>
 <script>
-document.getElementById('copy').addEventListener('click', function () {
-  var b = this, t = document.getElementById('prompt').textContent;
-  function done(ok) { b.textContent = ok ? 'Copied' : 'Select the text and copy'; setTimeout(function () { b.textContent = 'Copy prompt'; }, 2200); }
-  if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(t).then(function () { done(true); }, function () { done(false); }); return; }
-  var r = document.createRange(); r.selectNodeContents(document.getElementById('prompt'));
-  var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
-  try { done(document.execCommand('copy')); } catch (e) { done(false); }
+[].forEach.call(document.querySelectorAll('.copy'), function (b) {
+  b.addEventListener('click', function () {
+    var label = b.textContent, el = document.getElementById(b.dataset.p), t = el.textContent;
+    function done(ok) {
+      if (!ok) { el.hidden = false; var r = document.createRange(); r.selectNodeContents(el); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r); }
+      b.textContent = ok ? 'Copied' : 'Selected: press Cmd+C or Ctrl+C'; setTimeout(function () { b.textContent = label; }, 3000);
+    }
+    if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(t).then(function () { done(true); }, function () { done(false); }); return; }
+    var ta = document.createElement('textarea'); ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { done(document.execCommand('copy')); } catch (e) { done(false); }
+    document.body.removeChild(ta);
+  });
 });
 </script>
 </body></html>
