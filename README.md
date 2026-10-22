@@ -3,7 +3,7 @@
 McKinsey × Stanza · GE-O Tech & AI Knowledge Day · Lisbon · 23 October 2026
 
 **Get the kit.** On this page, click **Code > Download ZIP** and unzip it (no GitHub account needed),
-or `git clone https://github.com/ohjonathan/corvalis-hackathon-kit`. Then open **START_HERE.html** in your browser for the full task card.
+or `git clone https://github.com/ohjonathan/stanza-lisboa-hackathon-kit`. Then open **START_HERE.html** in your browser for the full task card.
 
 The short version:
 
