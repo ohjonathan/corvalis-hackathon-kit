@@ -23,7 +23,7 @@ it raises. Every claim cites a file.
 4. When the agent has written `as_is.html`: in Cursor's file list, right-click it >
    Reveal in Finder (Mac) or Reveal in File Explorer (Windows), then double-click it.
 
-**Timing.** Build 7-27 min · review every citation 27-32 · share-out 32-40 (60 seconds per table).
+**Timing (Lisbon, Fri 23 Oct).** Create 11:00 · review 11:10 · build or fix 11:17 · citation check 11:35 · share-out 11:40 (60 seconds per table).
 
 **Rules.** Synthetic data only. Never paste client or confidential data into any AI tool.
 Every claim cites a file. "Unconfirmed" beats invented.
