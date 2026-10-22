@@ -12,7 +12,7 @@ The short version:
 **The situation.** Corvalis Medical Devices (fictional) is replacing Oracle E-Business Suite
 with SAP S/4HANA in Project Keystone. The Design gate is slipping, and the steering committee
 meets on 28 Oct. The program office's dashboard is `single_source_of_now.html` (double-click it).
-Its data is in `data/program.js`.
+All its data is at the top of that file.
 
 **Your task.** With Cursor, build an artifact your client's executives would act on: a
 steering-committee one-pager, a decision memo, a "what changed this week" email, a risk heat

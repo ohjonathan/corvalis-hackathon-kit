@@ -52,6 +52,9 @@ code,kbd{font:600 14px/1.2 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 .dir code{font-size:13px}
 .dir .copy{margin:auto 0 0;align-self:flex-start;background:var(--teal);color:#fff}
 .dir .copy:focus-visible{outline:3px solid var(--teal-soft)}
+.dir details{margin-top:10px;font-size:14px}
+.dir summary{cursor:pointer;color:var(--teal);font-weight:600}
+.dir pre.pp{white-space:pre-wrap;font:400 13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0E1E3C;color:#E8EEF8;border-radius:10px;padding:12px 14px;margin:8px 0 0;overflow-wrap:anywhere}
 </style></head>
 <body>
 <header class="top"><div class="in">
@@ -66,8 +69,7 @@ code,kbd{font:600 14px/1.2 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 
 <h2><span class="n">2</span>What's in the kit</h2>
 <div class="card"><ul class="files">
-  <li><code>single_source_of_now.html</code><span>The program office's dashboard: Executive, Program management, Team lead. Double-click it first.</span></li>
-  <li><code>data/program.js</code><span>All the program data: milestones, teams, risks, issues, decisions, actions, budget, value case, this week's changes. Every record has an ID. Change it and reload to change the story.</span></li>
+  <li><code>single_source_of_now.html</code><span>The program office's dashboard: Executive, Program management, Team lead. Double-click it first. All the program data is at the top of the file: milestones, teams, risks, issues, decisions, actions, budget, value case, this week's changes. Every record has an ID. Change the data and reload to change the story.</span></li>
   <li><code>PROMPT.md</code><span>The starting prompt for Cursor's agent.</span></li>
   <li><code>AGENTS.md</code><span>The rules Cursor's agent follows in this folder.</span></li>
 </ul></div>
@@ -76,7 +78,8 @@ code,kbd{font:600 14px/1.2 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 <div class="grid g2">
   <div class="card dir"><b class="t">Steering-committee one-pager</b><div class="a">For the steering committee, chaired by the CFO. File: <code>steerco_onepager.html</code></div>
     <div class="g">Status in one line, the two or three things that matter, and the decision you need on 28 Oct.</div>
-    <button class="copy" type="button" data-p="p-steerco">Copy prompt</button><pre hidden id="p-steerco">Imagine your client: their SAP program is facing challenges, and you need to create a view and an artifact to communicate with your executive clients. What would you build?
+    <button class="copy" type="button" data-p="p-steerco">Copy prompt</button>
+    <details><summary>Show the prompt</summary><pre class="pp" id="p-steerco">Imagine your client: their SAP program is facing challenges, and you need to create a view and an artifact to communicate with your executive clients. What would you build?
 
 Our client is Corvalis Medical Devices (fictional). Its SAP S/4HANA program, Project Keystone, is in trouble, and the steering committee meets on 28 Oct 2026.
 
@@ -84,19 +87,20 @@ Audience: the steering committee, chaired by the CFO
 Artifact: a one-page steering-committee view built around one clear decision ask
 File name: steerco_onepager.html
 
-1. Read AGENTS.md, then all of data/program.js. Look at single_source_of_now.html: it is the dashboard the program office uses today.
+1. Read AGENTS.md, then single_source_of_now.html: the dashboard the program office uses today. All the program data is at the top of that file (window.PROGRAM); read it in full.
 2. In the chat, give me five lines first: the so-what in one sentence, the decision you would ask for, and the three facts that support it, each with its record ID.
 3. Then build the artifact as one self-contained HTML file in this folder, under the file name above:
-   - load the data with &lt;script src=&quot;data/program.js&quot;&gt;&lt;/script&gt; and take every number from it;
+   - take every number from the program data and write in the ones you use (don&#x27;t copy the whole data block);
    - lead with the so-what and the decision ask, then the evidence;
    - put the record ID next to every fact, like [M2], [D-02], [R-07], [budget], [V-03], [team OTC];
    - label anything you calculate or judge as &quot;inference&quot; and show the arithmetic;
    - write for a busy executive: plain words, short sentences, no unexplained acronyms;
    - no external libraries, fonts or network calls. It must open by double-click.
-4. When it is done, tell me the two questions this audience is most likely to push back with.</pre></div>
+4. When it is done, tell me the two questions this audience is most likely to push back with.</pre></details></div>
   <div class="card dir"><b class="t">Decision memo</b><div class="a">For Dana Whitfield, CFO and executive sponsor. File: <code>decision_memo.html</code></div>
     <div class="g">One decision, two or three options with their cost and date impact, and a recommendation.</div>
-    <button class="copy" type="button" data-p="p-memo">Copy prompt</button><pre hidden id="p-memo">Imagine your client: their SAP program is facing challenges, and you need to create a view and an artifact to communicate with your executive clients. What would you build?
+    <button class="copy" type="button" data-p="p-memo">Copy prompt</button>
+    <details><summary>Show the prompt</summary><pre class="pp" id="p-memo">Imagine your client: their SAP program is facing challenges, and you need to create a view and an artifact to communicate with your executive clients. What would you build?
 
 Our client is Corvalis Medical Devices (fictional). Its SAP S/4HANA program, Project Keystone, is in trouble, and the steering committee meets on 28 Oct 2026.
 
@@ -104,19 +108,20 @@ Audience: Dana Whitfield, CFO and executive sponsor
 Artifact: a one-page decision memo: the decision, the options, what each costs in money, time and value, and a recommendation
 File name: decision_memo.html
 
-1. Read AGENTS.md, then all of data/program.js. Look at single_source_of_now.html: it is the dashboard the program office uses today.
+1. Read AGENTS.md, then single_source_of_now.html: the dashboard the program office uses today. All the program data is at the top of that file (window.PROGRAM); read it in full.
 2. In the chat, give me five lines first: the so-what in one sentence, the decision you would ask for, and the three facts that support it, each with its record ID.
 3. Then build the artifact as one self-contained HTML file in this folder, under the file name above:
-   - load the data with &lt;script src=&quot;data/program.js&quot;&gt;&lt;/script&gt; and take every number from it;
+   - take every number from the program data and write in the ones you use (don&#x27;t copy the whole data block);
    - lead with the so-what and the decision ask, then the evidence;
    - put the record ID next to every fact, like [M2], [D-02], [R-07], [budget], [V-03], [team OTC];
    - label anything you calculate or judge as &quot;inference&quot; and show the arithmetic;
    - write for a busy executive: plain words, short sentences, no unexplained acronyms;
    - no external libraries, fonts or network calls. It must open by double-click.
-4. When it is done, tell me the two questions this audience is most likely to push back with.</pre></div>
+4. When it is done, tell me the two questions this audience is most likely to push back with.</pre></details></div>
   <div class="card dir"><b class="t">&quot;What changed this week&quot; email</b><div class="a">For the executive sponsor and the CIO, reading on a phone. File: <code>weekly_email.html</code></div>
     <div class="g">A subject line that says the news, three changes that matter, and what you need from them.</div>
-    <button class="copy" type="button" data-p="p-email">Copy prompt</button><pre hidden id="p-email">Imagine your client: their SAP program is facing challenges, and you need to create a view and an artifact to communicate with your executive clients. What would you build?
+    <button class="copy" type="button" data-p="p-email">Copy prompt</button>
+    <details><summary>Show the prompt</summary><pre class="pp" id="p-email">Imagine your client: their SAP program is facing challenges, and you need to create a view and an artifact to communicate with your executive clients. What would you build?
 
 Our client is Corvalis Medical Devices (fictional). Its SAP S/4HANA program, Project Keystone, is in trouble, and the steering committee meets on 28 Oct 2026.
 
@@ -124,19 +129,20 @@ Audience: the executive sponsor and the CIO, reading on a phone
 Artifact: a &quot;what changed this week&quot; email under 200 words, shown as a ready-to-send draft with a subject line and one small table
 File name: weekly_email.html
 
-1. Read AGENTS.md, then all of data/program.js. Look at single_source_of_now.html: it is the dashboard the program office uses today.
+1. Read AGENTS.md, then single_source_of_now.html: the dashboard the program office uses today. All the program data is at the top of that file (window.PROGRAM); read it in full.
 2. In the chat, give me five lines first: the so-what in one sentence, the decision you would ask for, and the three facts that support it, each with its record ID.
 3. Then build the artifact as one self-contained HTML file in this folder, under the file name above:
-   - load the data with &lt;script src=&quot;data/program.js&quot;&gt;&lt;/script&gt; and take every number from it;
+   - take every number from the program data and write in the ones you use (don&#x27;t copy the whole data block);
    - lead with the so-what and the decision ask, then the evidence;
    - put the record ID next to every fact, like [M2], [D-02], [R-07], [budget], [V-03], [team OTC];
    - label anything you calculate or judge as &quot;inference&quot; and show the arithmetic;
    - write for a busy executive: plain words, short sentences, no unexplained acronyms;
    - no external libraries, fonts or network calls. It must open by double-click.
-4. When it is done, tell me the two questions this audience is most likely to push back with.</pre></div>
+4. When it is done, tell me the two questions this audience is most likely to push back with.</pre></details></div>
   <div class="card dir"><b class="t">Risk heat map</b><div class="a">For Owen Castellano, CIO, preparing the risk discussion for the 28 Oct steering committee. File: <code>risk_heatmap.html</code></div>
     <div class="g">Every risk placed from the data, the top three called out, each with an owner and a date.</div>
-    <button class="copy" type="button" data-p="p-heatmap">Copy prompt</button><pre hidden id="p-heatmap">Imagine your client: their SAP program is facing challenges, and you need to create a view and an artifact to communicate with your executive clients. What would you build?
+    <button class="copy" type="button" data-p="p-heatmap">Copy prompt</button>
+    <details><summary>Show the prompt</summary><pre class="pp" id="p-heatmap">Imagine your client: their SAP program is facing challenges, and you need to create a view and an artifact to communicate with your executive clients. What would you build?
 
 Our client is Corvalis Medical Devices (fictional). Its SAP S/4HANA program, Project Keystone, is in trouble, and the steering committee meets on 28 Oct 2026.
 
@@ -144,19 +150,20 @@ Audience: Owen Castellano, CIO, preparing the risk discussion for the 28 Oct ste
 Artifact: a risk heat map: likelihood by impact, each risk placed and clickable to its detail, and the three to act on before 28 Oct
 File name: risk_heatmap.html
 
-1. Read AGENTS.md, then all of data/program.js. Look at single_source_of_now.html: it is the dashboard the program office uses today.
+1. Read AGENTS.md, then single_source_of_now.html: the dashboard the program office uses today. All the program data is at the top of that file (window.PROGRAM); read it in full.
 2. In the chat, give me five lines first: the so-what in one sentence, the decision you would ask for, and the three facts that support it, each with its record ID.
 3. Then build the artifact as one self-contained HTML file in this folder, under the file name above:
-   - load the data with &lt;script src=&quot;data/program.js&quot;&gt;&lt;/script&gt; and take every number from it;
+   - take every number from the program data and write in the ones you use (don&#x27;t copy the whole data block);
    - lead with the so-what and the decision ask, then the evidence;
    - put the record ID next to every fact, like [M2], [D-02], [R-07], [budget], [V-03], [team OTC];
    - label anything you calculate or judge as &quot;inference&quot; and show the arithmetic;
    - write for a busy executive: plain words, short sentences, no unexplained acronyms;
    - no external libraries, fonts or network calls. It must open by double-click.
-4. When it is done, tell me the two questions this audience is most likely to push back with.</pre></div>
+4. When it is done, tell me the two questions this audience is most likely to push back with.</pre></details></div>
   <div class="card dir"><b class="t">CFO view of value at risk</b><div class="a">For the CFO. File: <code>value_at_risk.html</code></div>
     <div class="g">The cost of waiting next to the cost of acting, with the arithmetic shown.</div>
-    <button class="copy" type="button" data-p="p-value">Copy prompt</button><pre hidden id="p-value">Imagine your client: their SAP program is facing challenges, and you need to create a view and an artifact to communicate with your executive clients. What would you build?
+    <button class="copy" type="button" data-p="p-value">Copy prompt</button>
+    <details><summary>Show the prompt</summary><pre class="pp" id="p-value">Imagine your client: their SAP program is facing challenges, and you need to create a view and an artifact to communicate with your executive clients. What would you build?
 
 Our client is Corvalis Medical Devices (fictional). Its SAP S/4HANA program, Project Keystone, is in trouble, and the steering committee meets on 28 Oct 2026.
 
@@ -164,19 +171,20 @@ Audience: the CFO
 Artifact: a value-at-risk view: what a late go-live costs in extra spend and deferred benefits, compared with the cost of recovering
 File name: value_at_risk.html
 
-1. Read AGENTS.md, then all of data/program.js. Look at single_source_of_now.html: it is the dashboard the program office uses today.
+1. Read AGENTS.md, then single_source_of_now.html: the dashboard the program office uses today. All the program data is at the top of that file (window.PROGRAM); read it in full.
 2. In the chat, give me five lines first: the so-what in one sentence, the decision you would ask for, and the three facts that support it, each with its record ID.
 3. Then build the artifact as one self-contained HTML file in this folder, under the file name above:
-   - load the data with &lt;script src=&quot;data/program.js&quot;&gt;&lt;/script&gt; and take every number from it;
+   - take every number from the program data and write in the ones you use (don&#x27;t copy the whole data block);
    - lead with the so-what and the decision ask, then the evidence;
    - put the record ID next to every fact, like [M2], [D-02], [R-07], [budget], [V-03], [team OTC];
    - label anything you calculate or judge as &quot;inference&quot; and show the arithmetic;
    - write for a busy executive: plain words, short sentences, no unexplained acronyms;
    - no external libraries, fonts or network calls. It must open by double-click.
-4. When it is done, tell me the two questions this audience is most likely to push back with.</pre></div>
+4. When it is done, tell me the two questions this audience is most likely to push back with.</pre></details></div>
   <div class="card dir"><b class="t">Your own idea</b><div class="a">Any audience, any format.</div>
     <div class="g">Copy this prompt, then fill in its Audience, Artifact and File name lines before you send it.</div>
-    <button class="copy" type="button" data-p="p-own">Copy prompt</button><pre hidden id="p-own">Imagine your client: their SAP program is facing challenges, and you need to create a view and an artifact to communicate with your executive clients. What would you build?
+    <button class="copy" type="button" data-p="p-own">Copy prompt</button>
+    <details><summary>Show the prompt</summary><pre class="pp" id="p-own">Imagine your client: their SAP program is facing challenges, and you need to create a view and an artifact to communicate with your executive clients. What would you build?
 
 Our client is Corvalis Medical Devices (fictional). Its SAP S/4HANA program, Project Keystone, is in trouble, and the steering committee meets on 28 Oct 2026.
 
@@ -184,10 +192,10 @@ Audience: [who will read it]
 Artifact: [what you will build for them]
 File name: [short_name].html
 
-1. Read AGENTS.md, then all of data/program.js. Look at single_source_of_now.html: it is the dashboard the program office uses today.
+1. Read AGENTS.md, then single_source_of_now.html: the dashboard the program office uses today. All the program data is at the top of that file (window.PROGRAM); read it in full.
 2. In the chat, give me five lines first: the so-what in one sentence, the decision you would ask for, and the three facts that support it, each with its record ID.
 3. Then build the artifact as one self-contained HTML file in this folder, under the file name above:
-   - load the data with &lt;script src=&quot;data/program.js&quot;&gt;&lt;/script&gt; and take every number from it;
+   - take every number from the program data and write in the ones you use (don&#x27;t copy the whole data block);
    - lead with the so-what and the decision ask, then the evidence;
    - put the record ID next to every fact, like [M2], [D-02], [R-07], [budget], [V-03], [team OTC];
    - label anything you calculate or judge as &quot;inference&quot; and show the arithmetic;
@@ -248,10 +256,10 @@ Audience: the steering committee, chaired by the CFO
 Artifact: a one-page steering-committee view built around one clear decision ask
 File name: steerco_onepager.html
 
-1. Read AGENTS.md, then all of data/program.js. Look at single_source_of_now.html: it is the dashboard the program office uses today.
+1. Read AGENTS.md, then single_source_of_now.html: the dashboard the program office uses today. All the program data is at the top of that file (window.PROGRAM); read it in full.
 2. In the chat, give me five lines first: the so-what in one sentence, the decision you would ask for, and the three facts that support it, each with its record ID.
 3. Then build the artifact as one self-contained HTML file in this folder, under the file name above:
-   - load the data with &lt;script src=&quot;data/program.js&quot;&gt;&lt;/script&gt; and take every number from it;
+   - take every number from the program data and write in the ones you use (don&#x27;t copy the whole data block);
    - lead with the so-what and the decision ask, then the evidence;
    - put the record ID next to every fact, like [M2], [D-02], [R-07], [budget], [V-03], [team OTC];
    - label anything you calculate or judge as &quot;inference&quot; and show the arithmetic;
@@ -265,7 +273,7 @@ File name: steerco_onepager.html
   <li>Corvalis Medical Devices is fictional. All data in this kit is synthetic.</li>
   <li>Use only this kit's data. Never paste client or confidential data into any AI tool.</li>
   <li>No sign-ins needed beyond your own Cursor.</li>
-  <li>Every number traces to a record in <code>data/program.js</code>. "Not in the data" beats invented.</li>
+  <li>Every number traces to a record in the program data. "Not in the data" beats invented.</li>
 </ul></div>
 
 <h2><span class="n">10</span>If Cursor won't start</h2>
@@ -289,7 +297,7 @@ File name: steerco_onepager.html
   b.addEventListener('click', function () {
     var label = b.textContent, el = document.getElementById(b.dataset.p), t = el.textContent;
     function done(ok) {
-      if (!ok) { el.hidden = false; var r = document.createRange(); r.selectNodeContents(el); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r); }
+      if (!ok) { var dt = el.closest('details'); if (dt) dt.open = true; var r = document.createRange(); r.selectNodeContents(el); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r); }
       b.textContent = ok ? 'Copied' : 'Selected: press Cmd+C or Ctrl+C'; setTimeout(function () { b.textContent = label; }, 3000);
     }
     if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(t).then(function () { done(true); }, function () { done(false); }); return; }

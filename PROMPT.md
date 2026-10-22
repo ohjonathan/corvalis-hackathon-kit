@@ -6,10 +6,10 @@ Audience: the steering committee, chaired by the CFO
 Artifact: a one-page steering-committee view built around one clear decision ask
 File name: steerco_onepager.html
 
-1. Read AGENTS.md, then all of data/program.js. Look at single_source_of_now.html: it is the dashboard the program office uses today.
+1. Read AGENTS.md, then single_source_of_now.html: the dashboard the program office uses today. All the program data is at the top of that file (window.PROGRAM); read it in full.
 2. In the chat, give me five lines first: the so-what in one sentence, the decision you would ask for, and the three facts that support it, each with its record ID.
 3. Then build the artifact as one self-contained HTML file in this folder, under the file name above:
-   - load the data with <script src="data/program.js"></script> and take every number from it;
+   - take every number from the program data and write in the ones you use (don't copy the whole data block);
    - lead with the so-what and the decision ask, then the evidence;
    - put the record ID next to every fact, like [M2], [D-02], [R-07], [budget], [V-03], [team OTC];
    - label anything you calculate or judge as "inference" and show the arithmetic;
